@@ -312,19 +312,19 @@
 
       if (check.checked) {
         const income = Math.round(min + ((max - min) * val) / 100);
-        valueEl.textContent = "₹" + formatNumber(income);
+        valueEl.textContent = inrFmt.format(income);
         totalMin += min;
         totalMax += max;
         slider.disabled = false;
       } else {
-        valueEl.textContent = "₹0";
+        valueEl.textContent = inrFmt.format(0);
         slider.disabled = true;
       }
     });
 
-    calcTotalEl.textContent =
-      "₹" +
-      formatNumber(totalMax > 0 ? Math.round((totalMin + totalMax) / 2) : 0);
+    calcTotalEl.textContent = inrFmt.format(
+      totalMax > 0 ? Math.round((totalMin + totalMax) / 2) : 0,
+    );
     calcRangeEl.textContent =
       totalMax > 0
         ? `Range: ${inrFmt.format(totalMin)} - ${inrFmt.format(totalMax)}`

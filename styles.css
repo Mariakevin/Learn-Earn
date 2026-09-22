@@ -20,6 +20,12 @@
   --gold-ink: #0b0d12;
   --gold-soft: rgba(245, 185, 66, 0.12);
   --gold-line: rgba(245, 185, 66, 0.38);
+  --gold-tint-1: rgba(245, 185, 66, 0.16);
+  --gold-tint-2: rgba(245, 185, 66, 0.11);
+  --gold-tint-3: rgba(245, 185, 66, 0.08);
+  --gold-tint-4: rgba(245, 185, 66, 0.05);
+  --gold-tint-5: rgba(245, 185, 66, 0.03);
+  --gold-tint-6: rgba(245, 185, 66, 0.02);
   --income: #3ddc84;
   --top-hi: 0 1px 0 rgba(255, 255, 255, 0.04);
   --shadow-1: none;
@@ -31,7 +37,7 @@
 /* ===== Tokens: light ===== */
 [data-theme="light"] {
   color-scheme: light;
-  --ink: #f6f5f1;
+  --ink: #f5f6f8;
   --surface-1: #ffffff;
   --surface-2: #eef1f6;
   --surface-3: #e3e7ef;
@@ -45,6 +51,12 @@
   --gold-ink: #ffffff;
   --gold-soft: rgba(224, 168, 46, 0.14);
   --gold-line: rgba(161, 98, 46, 0.45);
+  --gold-tint-1: rgba(224, 168, 46, 0.16);
+  --gold-tint-2: rgba(224, 168, 46, 0.12);
+  --gold-tint-3: rgba(224, 168, 46, 0.09);
+  --gold-tint-4: rgba(224, 168, 46, 0.06);
+  --gold-tint-5: rgba(224, 168, 46, 0.04);
+  --gold-tint-6: rgba(224, 168, 46, 0.02);
   --income: #047857;
   --top-hi: none;
   --shadow-1: 0 1px 2px rgba(16, 20, 28, 0.06);
@@ -118,7 +130,6 @@ a {
 .top3-rank,
 .rule-number,
 .nav-wordmark,
-.nav-badge,
 .stat-target,
 .week-label,
 #checklistLabel,
@@ -208,26 +219,6 @@ a {
   background: var(--surface-3);
 }
 
-.nav-badge {
-  display: none;
-  flex-shrink: 0;
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 0.6875rem;
-  font-weight: 600;
-  letter-spacing: 0.06em;
-  color: var(--gold);
-  background: var(--gold-soft);
-  border: 1px solid var(--gold-line);
-  border-radius: var(--radius-sm);
-  padding: 4px 8px;
-}
-
-@media (min-width: 900px) {
-  .nav-badge {
-    display: inline-block;
-  }
-}
-
 /* ===== Theme toggle ===== */
 .theme-toggle {
   flex-shrink: 0;
@@ -312,16 +303,27 @@ a {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-  padding: 8px 12px;
+  padding: 6px 10px;
   background: var(--gold-soft);
   border: 1px solid var(--gold-line);
-  border-radius: 999px;
+  border-radius: 2px;
   color: var(--gold);
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.6875rem;
   font-weight: 600;
-  letter-spacing: 0.12em;
+  letter-spacing: 0.14em;
   text-transform: uppercase;
   margin-bottom: 16px;
+}
+
+.hero-eyebrow::before {
+  content: "[";
+  opacity: 0.65;
+}
+
+.hero-eyebrow::after {
+  content: "]";
+  opacity: 0.65;
 }
 
 .hero h1 {
@@ -334,11 +336,9 @@ a {
 }
 
 .h1-accent {
-  background: linear-gradient(105deg, var(--gold) 0%, var(--gold-dim) 100%);
-  -webkit-background-clip: text;
-  background-clip: text;
-  -webkit-text-fill-color: transparent;
   color: var(--gold);
+  border-bottom: 2px solid var(--gold-line);
+  padding-bottom: 0.05em;
 }
 
 .hero-subtitle {
@@ -657,6 +657,8 @@ a {
 
 .section-header {
   margin-bottom: 24px;
+  padding-top: 12px;
+  border-top: 1px solid var(--gold-line);
 }
 
 .section-header h2 {
@@ -696,14 +698,11 @@ a {
   border: 1px solid var(--hairline);
   border-radius: var(--radius-md);
   flex: 1 1 200px;
-  transition:
-    border-color 140ms var(--ease-out),
-    transform 140ms var(--ease-out);
+  transition: border-color 140ms var(--ease-out);
 }
 
 .loop-step:hover {
   border-color: var(--gold);
-  transform: translateY(-1px);
 }
 
 .loop-number {
@@ -889,13 +888,13 @@ a {
   border-radius: var(--radius-md);
   padding: 24px;
   box-shadow: var(--top-hi);
-  transition:
-    border-color 140ms var(--ease-out),
-    transform 140ms var(--ease-out);
+  transition: border-color 140ms var(--ease-out);
 }
 
 .tier-card:hover {
-  transform: translateY(-1px);
+  border-top-color: var(--gold);
+  border-right-color: var(--gold);
+  border-bottom-color: var(--gold);
 }
 
 .tier-1 {
@@ -1060,10 +1059,46 @@ a {
   text-overflow: ellipsis;
 }
 
-.phase-band:first-child {
+.phase-band:nth-child(1) {
+  background: var(--gold-tint-1);
   border-color: var(--gold-line);
   color: var(--gold);
-  background: var(--gold-soft);
+}
+
+.phase-band:nth-child(2) {
+  background: var(--gold-tint-2);
+  border-color: var(--gold-line);
+  color: var(--text-2);
+}
+
+.phase-band:nth-child(3) {
+  background: var(--gold-tint-3);
+  border-color: var(--hairline-strong);
+  color: var(--text-2);
+}
+
+.phase-band:nth-child(4) {
+  background: var(--gold-tint-4);
+  border-color: var(--hairline-strong);
+  color: var(--text-3);
+}
+
+.phase-band:nth-child(5) {
+  background: var(--gold-tint-5);
+  border-color: var(--hairline);
+  color: var(--text-3);
+}
+
+.phase-band:nth-child(6) {
+  background: var(--gold-tint-6);
+  border-color: var(--hairline);
+  color: var(--text-3);
+}
+
+.phase-band:nth-child(7) {
+  background: var(--surface-2);
+  border-color: var(--hairline);
+  color: var(--text-3);
 }
 
 .timeline-track {
@@ -1302,8 +1337,9 @@ a {
   font-size: 0.8125rem;
   font-weight: 500;
   color: var(--income);
-  min-width: 64px;
+  min-width: 88px;
   text-align: right;
+  white-space: nowrap;
 }
 
 .calc-total {
@@ -1326,11 +1362,14 @@ a {
 }
 
 .calc-total-value {
+  display: inline-block;
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: clamp(2rem, 4vw, 2.75rem);
   font-weight: 600;
   line-height: 1.1;
   color: var(--gold);
+  border-bottom: 2px solid var(--gold-line);
+  padding-bottom: 6px;
 }
 
 .calc-total-range {
@@ -1482,27 +1521,29 @@ a {
   color: var(--gold);
 }
 
-/* ===== Platforms ===== */
+/* ===== Platforms (ledger rows, not full cards) ===== */
 .platforms-grid {
   display: grid;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-  gap: 12px;
+  gap: 0;
+  border-top: 1px solid var(--hairline);
 }
 
 .platform-card {
-  background: var(--surface-1);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-md);
-  padding: 16px;
-  box-shadow: var(--top-hi);
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--hairline);
+  border-radius: 0;
+  padding: 16px 8px;
+  box-shadow: none;
   transition:
     border-color 140ms var(--ease-out),
-    transform 140ms var(--ease-out);
+    background 140ms var(--ease-out);
 }
 
 .platform-card:hover {
-  border-color: var(--gold);
-  transform: translateY(-1px);
+  background: var(--gold-soft);
+  border-bottom-color: var(--gold-line);
 }
 
 .platform-header {
@@ -1662,14 +1703,11 @@ a {
   border-radius: var(--radius-md);
   padding: 16px;
   box-shadow: var(--top-hi);
-  transition:
-    border-color 140ms var(--ease-out),
-    transform 140ms var(--ease-out);
+  transition: border-color 140ms var(--ease-out);
 }
 
 .career-card:hover {
   border-color: var(--gold);
-  transform: translateY(-1px);
 }
 
 .career-header {
@@ -1785,25 +1823,31 @@ a {
   color: var(--text-1);
 }
 
-/* ===== Rules ===== */
+/* ===== Rules (unboxed numbered list) ===== */
 .rules-grid {
   display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-  gap: 12px;
+  grid-template-columns: 1fr;
+  gap: 0;
+  border-top: 1px solid var(--hairline);
 }
 
 .rule-card {
   display: flex;
   align-items: flex-start;
   gap: 12px;
-  padding: 16px;
-  background: var(--surface-1);
-  border: 1px solid var(--hairline);
-  border-radius: var(--radius-sm);
+  padding: 14px 8px;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid var(--hairline);
+  border-radius: 0;
+}
+
+.rule-card:last-child {
+  border-bottom: none;
 }
 
 .rule-card:first-child {
-  border-left: 3px solid var(--gold);
+  border-left: none;
 }
 
 .rule-number {
@@ -1921,12 +1965,29 @@ a {
 }
 
 .artifact-card {
+  position: relative;
   background: var(--surface-1);
   border: 1px solid var(--hairline);
   border-top: 2px dashed var(--hairline-strong);
   border-radius: 0 0 var(--radius-md) var(--radius-md);
   padding: 16px;
+  padding-top: 40px;
   transition: border-color 140ms var(--ease-out);
+}
+
+.artifact-card::before {
+  content: "OUTPUT";
+  position: absolute;
+  top: 10px;
+  right: 12px;
+  font-family: "IBM Plex Mono", ui-monospace, monospace;
+  font-size: 0.5625rem;
+  font-weight: 600;
+  letter-spacing: 0.14em;
+  color: var(--text-3);
+  border: 1px dashed var(--hairline-strong);
+  border-radius: 2px;
+  padding: 2px 6px;
 }
 
 .artifact-card:hover {
