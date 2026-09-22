@@ -2,6 +2,24 @@
    Breakpoints: min-width 640 / 768 / 960; max-width 639 / 480
    Mobile-first: base rules target small screens; min-width queries enhance. */
 
+/* Color-system guardrails (patterns CP-1..CP-12, research 2026-09-22)
+   Palette doctrine:
+   - Dark theme is authored, NOT an invert of light; both are deliberate.
+   - No pure #000 / #fff for text or large fills; surfaces stop short.
+   - Elevation = surface ladder (ink, surface-1/2/3), never drop shadows.
+   - Gold = progress/achievement only. Green (--income) = money only.
+   - Never overload gold/green as warn/danger. When a status need appears,
+     add separate --warn / --danger tokens instead of reusing accents.
+   Accent rules:
+   - Gold fills take dark-ink text (--gold-ink), never white (bright gold);
+     light theme remaps accents darker so white text keeps AA.
+   - No purple or indigo gradients anywhere.
+   Contrast:
+   - Ship gate = WCAG 2.x (4.5:1 body text, 3:1 UI/large); APCA is advisory.
+   - Redundant coding: never color-alone (pair color with Rs, +/-, labels).
+   Leave alone: Inter+Plex pairing, dark-default architecture, gold tints,
+   surface ladder, light-theme accent remaps. */
+
 /* ===== Tokens: dark (default) ===== */
 :root,
 [data-theme="dark"] {
