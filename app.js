@@ -18,14 +18,59 @@
     calcChecks: {},
   };
 
+  function isPlainObject(value) {
+    return typeof value === "object" && value !== null && !Array.isArray(value);
+  }
+
+  function clampInt(value, min, max, fallback) {
+    const num = Math.trunc(Number(value));
+    if (!Number.isFinite(num)) return fallback;
+    return Math.min(max, Math.max(min, num));
+  }
+
+  function sanitizeState(raw) {
+    if (!isPlainObject(raw)) return { ...defaultState };
+
+    const next = { ...defaultState };
+    next.theme = raw.theme === "light" ? "light" : "dark";
+    next.leetcode = clampInt(raw.leetcode, 0, Number.MAX_SAFE_INTEGER, 0);
+    next.income = clampInt(raw.income, 0, Number.MAX_SAFE_INTEGER, 0);
+    next.pwsLabs = clampInt(raw.pwsLabs, 0, 60, 0);
+    next.activeWeek = clampInt(raw.activeWeek, 1, 13, 1);
+    next.loopsActive = clampInt(raw.loopsActive, 0, 8, 0);
+
+    next.checklist = {};
+    if (isPlainObject(raw.checklist)) {
+      for (let id = 1; id <= 8; id++) {
+        next.checklist[id] = raw.checklist[id] === true;
+      }
+    }
+
+    next.calcSliders = {};
+    if (isPlainObject(raw.calcSliders)) {
+      for (const key of Object.keys(raw.calcSliders)) {
+        const pos = clampInt(raw.calcSliders[key], 0, 100, null);
+        if (pos !== null) next.calcSliders[key] = pos;
+      }
+    }
+
+    next.calcChecks = {};
+    if (isPlainObject(raw.calcChecks)) {
+      for (const key of Object.keys(raw.calcChecks)) {
+        next.calcChecks[key] = raw.calcChecks[key] === true;
+      }
+    }
+
+    return next;
+  }
+
   let state = loadState();
 
   function loadState() {
     try {
       const saved = localStorage.getItem(STATE_KEY);
       if (saved) {
-        const parsed = JSON.parse(saved);
-        return { ...defaultState, ...parsed };
+        return sanitizeState(JSON.parse(saved));
       }
     } catch (e) {
       console.warn("Failed to load state:", e);
@@ -51,7 +96,7 @@
   const ICON_MOON =
     '<svg xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>';
 
-  function applyTheme(theme) {
+  function applyTheme(theme, persist) {
     html.setAttribute("data-theme", theme);
     themeIcon.innerHTML = theme === "dark" ? ICON_SUN : ICON_MOON;
     themeToggle.setAttribute(
@@ -59,15 +104,15 @@
       theme === "dark" ? "Switch to light mode" : "Switch to dark mode",
     );
     state.theme = theme;
-    saveState();
+    if (persist !== false) saveState();
   }
 
   themeToggle.addEventListener("click", () => {
-    applyTheme(state.theme === "dark" ? "light" : "dark");
+    applyTheme(state.theme === "dark" ? "light" : "dark", true);
   });
 
-  // Apply saved theme
-  applyTheme(state.theme);
+  // Apply saved theme (already on disk; do not rewrite on boot)
+  applyTheme(state.theme, false);
 
   // ===== Stats =====
   const leetcodeCountEl = document.getElementById("leetcodeCount");
@@ -79,20 +124,31 @@
   const loopProgressEl = document.getElementById("loopProgress");
   const weekProgressEl = document.getElementById("weekProgress");
 
+  // Null = current week has no numeric loops in weekData (show placeholder)
+  let displayedLoops = null;
+
+  function setProgress(el, pct) {
+    const clamped = Number.isFinite(pct) ? Math.min(100, Math.max(0, pct)) : 0;
+    el.style.width = clamped + "%";
+    el.setAttribute("aria-valuenow", String(Math.round(clamped)));
+  }
+
   function updateStats() {
-    leetcodeCountEl.textContent = state.leetcode;
+    leetcodeCountEl.textContent = String(state.leetcode);
     incomeCountEl.textContent = "₹" + formatNumber(state.income);
-    activeLoopsEl.textContent = state.loopsActive + "/8";
+    if (displayedLoops === null) {
+      activeLoopsEl.textContent = "\u2014";
+      setProgress(loopProgressEl, 0);
+    } else {
+      activeLoopsEl.textContent = displayedLoops + "/8";
+      setProgress(loopProgressEl, (displayedLoops / 8) * 100);
+    }
     weekCountEl.textContent =
       state.activeWeek > 12 ? "Month 3+" : "Week " + state.activeWeek;
 
-    leetcodeProgressEl.style.width =
-      Math.min((state.leetcode / 240) * 100, 100) + "%";
-    incomeProgressEl.style.width =
-      Math.min((state.income / 100000) * 100, 100) + "%";
-    loopProgressEl.style.width = (state.loopsActive / 8) * 100 + "%";
-    weekProgressEl.style.width =
-      Math.min((state.activeWeek / 12) * 100, 100) + "%";
+    setProgress(leetcodeProgressEl, (state.leetcode / 240) * 100);
+    setProgress(incomeProgressEl, (state.income / 100000) * 100);
+    setProgress(weekProgressEl, (state.activeWeek / 12) * 100);
   }
 
   // ===== Stat Steppers (LeetCode / Income / PortSwigger) =====
@@ -116,6 +172,7 @@
   });
 
   function formatNumber(num) {
+    if (!Number.isFinite(num) || num < 0) return "0";
     if (num >= 100000) return (num / 100000).toFixed(1) + "L";
     if (num >= 1000) return (num / 1000).toFixed(num >= 10000 ? 0 : 1) + "K";
     return num.toString();
@@ -252,6 +309,10 @@
   }
 
   function renderTimeline() {
+    const restoreFocus =
+      document.activeElement !== null &&
+      timelineWeeksEl.contains(document.activeElement);
+
     timelineWeeksEl.innerHTML = "";
     weekData.forEach((data) => {
       const weekEl = document.createElement("button");
@@ -267,6 +328,9 @@
         "aria-label",
         `Week ${data.week}, ${getPhaseForWeek(data.week)}, ${status}`,
       );
+      if (data.week === state.activeWeek) {
+        weekEl.setAttribute("aria-current", "true");
+      }
       weekEl.innerHTML = `
         <span class="week-dot ${data.week <= state.activeWeek ? "completed" : ""} ${data.week === state.activeWeek ? "active" : ""}"></span>
         <span class="week-label">${data.label}</span>
@@ -274,6 +338,12 @@
       weekEl.addEventListener("click", () => showWeekDetail(data));
       timelineWeeksEl.appendChild(weekEl);
     });
+
+    if (restoreFocus) {
+      const buttons = timelineWeeksEl.querySelectorAll(".timeline-week");
+      const target = buttons[state.activeWeek - 1] || buttons[0];
+      if (target) target.focus();
+    }
   }
 
   function showWeekDetail(data) {
@@ -284,9 +354,12 @@
         ${data.targets.map((t) => `<span>${t}</span>`).join("")}
       </div>
     `;
-    state.activeWeek = data.week;
-    if (typeof data.loops === "number") {
-      state.loopsActive = data.loops;
+    state.activeWeek = clampInt(data.week, 1, 13, 1);
+    if (typeof data.loops === "number" && Number.isFinite(data.loops)) {
+      state.loopsActive = clampInt(data.loops, 0, 8, 0);
+      displayedLoops = state.loopsActive;
+    } else {
+      displayedLoops = null;
     }
     saveState();
     updateStats();
@@ -294,58 +367,81 @@
   }
 
   // ===== Income Calculator =====
-  const calcSliders = document.querySelectorAll(".calc-slider");
-  const calcChecks = document.querySelectorAll(".calc-check");
+  const calcItems = Array.from(document.querySelectorAll(".calc-item"));
   const calcTotalEl = document.getElementById("calcTotal");
   const calcRangeEl = document.getElementById("calcRange");
 
-  function updateCalculator() {
+  function calcValueFromSlider(min, max, sliderPos) {
+    const pos = Math.min(100, Math.max(0, sliderPos));
+    return Math.round(min + ((max - min) * pos) / 100);
+  }
+
+  // Pure: sum of current values; range = sum of mins .. sum of maxs
+  function computeCalcTotals(entries) {
+    let total = 0;
     let totalMin = 0;
     let totalMax = 0;
+    let anyChecked = false;
+    for (const entry of entries) {
+      if (!entry.checked) continue;
+      anyChecked = true;
+      total += entry.value;
+      totalMin += entry.min;
+      totalMax += entry.max;
+    }
+    return { total, totalMin, totalMax, anyChecked };
+  }
 
-    calcSliders.forEach((slider, i) => {
-      const check = calcChecks[i];
-      const min = parseInt(slider.dataset.min);
-      const max = parseInt(slider.dataset.max);
-      const val = parseInt(slider.value);
-      const valueEl = slider.parentElement.querySelector(".calc-value");
+  function readCalcItem(item) {
+    const check = item.querySelector(".calc-check");
+    const slider = item.querySelector(".calc-slider");
+    const valueEl = item.querySelector(".calc-value");
+    const min = parseInt(slider.dataset.min, 10) || 0;
+    const max = parseInt(slider.dataset.max, 10) || 0;
+    const rawPos = parseInt(slider.value, 10);
+    const pos = Number.isFinite(rawPos)
+      ? Math.min(100, Math.max(0, rawPos))
+      : 0;
+    const checked = check.checked;
+    return { check, slider, valueEl, min, max, pos, checked };
+  }
 
-      if (check.checked) {
-        const income = Math.round(min + ((max - min) * val) / 100);
-        valueEl.textContent = inrFmt.format(income);
-        totalMin += min;
-        totalMax += max;
-        slider.disabled = false;
-      } else {
-        valueEl.textContent = inrFmt.format(0);
-        slider.disabled = true;
-      }
+  function updateCalculator() {
+    const entries = calcItems.map((item) => {
+      const entry = readCalcItem(item);
+      const value = entry.checked
+        ? calcValueFromSlider(entry.min, entry.max, entry.pos)
+        : 0;
+      entry.valueEl.textContent = inrFmt.format(value);
+      entry.slider.disabled = !entry.checked;
+      return { ...entry, value };
     });
 
-    calcTotalEl.textContent = inrFmt.format(
-      totalMax > 0 ? Math.round((totalMin + totalMax) / 2) : 0,
-    );
-    calcRangeEl.textContent =
-      totalMax > 0
-        ? `Range: ${inrFmt.format(totalMin)} - ${inrFmt.format(totalMax)}`
-        : "Enable activities above to estimate";
+    const { total, totalMin, totalMax, anyChecked } =
+      computeCalcTotals(entries);
 
-    // Save slider state
-    calcSliders.forEach((slider, i) => {
-      state.calcSliders[i] = slider.value;
-      state.calcChecks[i] = calcChecks[i].checked;
+    calcTotalEl.textContent = inrFmt.format(Number.isFinite(total) ? total : 0);
+    calcRangeEl.textContent = anyChecked
+      ? `Range: ${inrFmt.format(totalMin)} - ${inrFmt.format(totalMax)}`
+      : "Enable activities above to estimate";
+
+    entries.forEach((entry, i) => {
+      state.calcSliders[i] = entry.pos;
+      state.calcChecks[i] = entry.checked;
     });
     saveState();
   }
 
-  calcSliders.forEach((slider, i) => {
-    // Restore state
-    if (state.calcSliders[i] !== undefined) slider.value = state.calcSliders[i];
-    if (state.calcChecks[i] !== undefined)
-      calcChecks[i].checked = state.calcChecks[i];
+  calcItems.forEach((item, i) => {
+    const check = item.querySelector(".calc-check");
+    const slider = item.querySelector(".calc-slider");
+    if (state.calcSliders[i] !== undefined) {
+      slider.value = String(state.calcSliders[i]);
+    }
+    if (state.calcChecks[i] !== undefined) check.checked = state.calcChecks[i];
 
     slider.addEventListener("input", updateCalculator);
-    calcChecks[i].addEventListener("change", updateCalculator);
+    check.addEventListener("change", updateCalculator);
   });
 
   updateCalculator();
@@ -363,7 +459,7 @@
       if (state.checklist[id]) checked++;
     });
     const total = checkInputs.length;
-    checklistProgressEl.style.width = (checked / total) * 100 + "%";
+    setProgress(checklistProgressEl, total > 0 ? (checked / total) * 100 : 0);
     checklistLabelEl.textContent = `${checked}/${total} completed`;
   }
 
@@ -382,16 +478,12 @@
   const pwsLabelEl = document.getElementById("pwsLabel");
 
   function updatePWS() {
-    pwsProgressEl.style.width = (state.pwsLabs / 60) * 100 + "%";
+    setProgress(pwsProgressEl, (state.pwsLabs / 60) * 100);
     pwsLabelEl.textContent = `${state.pwsLabs}/60 labs`;
   }
 
   updatePWS();
 
   // ===== Initialize =====
-  updateStats();
-  renderTimeline();
-  showWeekDetail(
-    weekData[Math.min(state.activeWeek, weekData.length) - 1] || weekData[0],
-  );
+  showWeekDetail(weekData[state.activeWeek - 1] || weekData[0]);
 })();

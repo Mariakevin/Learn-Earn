@@ -1,5 +1,5 @@
 /* Spacing scale: 4, 8, 12, 16, 24, 32, 48, 64
-   Breakpoints: min-width 640 / 768 / 900 / 960; max-width 639 / 480
+   Breakpoints: min-width 640 / 768 / 960; max-width 639 / 480
    Mobile-first: base rules target small screens; min-width queries enhance. */
 
 /* ===== Tokens: dark (default) ===== */
@@ -28,7 +28,6 @@
   --gold-tint-6: rgba(245, 185, 66, 0.02);
   --income: #3ddc84;
   --top-hi: 0 1px 0 rgba(255, 255, 255, 0.04);
-  --shadow-1: none;
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
   --radius-sm: 6px;
   --radius-md: 8px;
@@ -46,11 +45,11 @@
   --text-3: #4b5563;
   --hairline: #e3e7ef;
   --hairline-strong: #c9cfdb;
-  --gold: #a16207;
-  --gold-dim: #854a0e;
+  --gold: #854d0e;
+  --gold-dim: #78350f;
   --gold-ink: #ffffff;
   --gold-soft: rgba(224, 168, 46, 0.14);
-  --gold-line: rgba(161, 98, 46, 0.45);
+  --gold-line: rgba(133, 77, 14, 0.45);
   --gold-tint-1: rgba(224, 168, 46, 0.16);
   --gold-tint-2: rgba(224, 168, 46, 0.12);
   --gold-tint-3: rgba(224, 168, 46, 0.09);
@@ -59,7 +58,6 @@
   --gold-tint-6: rgba(224, 168, 46, 0.02);
   --income: #047857;
   --top-hi: none;
-  --shadow-1: 0 1px 2px rgba(16, 20, 28, 0.06);
 }
 
 /* ===== Reset & base ===== */
@@ -116,10 +114,27 @@ a {
   outline-offset: 2px;
 }
 
-.mono,
-.num,
+/* ===== Skip link ===== */
+.skip-link {
+  position: absolute;
+  left: 8px;
+  top: -48px;
+  z-index: 200;
+  padding: 8px 12px;
+  background: var(--gold);
+  color: var(--gold-ink);
+  border-radius: var(--radius-sm);
+  font-weight: 600;
+  font-size: 0.875rem;
+  text-decoration: none;
+  transition: top 140ms var(--ease-out);
+}
+
+.skip-link:focus {
+  top: 8px;
+}
+
 .kpi-number,
-.stat-number,
 .meta-value,
 .calc-total-value,
 .calc-total-range,
@@ -130,17 +145,12 @@ a {
 .top3-rank,
 .rule-number,
 .nav-wordmark,
-.stat-target,
 .week-label,
 #checklistLabel,
 #pwsLabel,
 .footer,
 .activity-income {
   font-variant-numeric: tabular-nums slashed-zero;
-}
-
-.mono {
-  font-family: "IBM Plex Mono", ui-monospace, "Cascadia Code", monospace;
 }
 
 /* ===== Sticky nav ===== */
@@ -188,12 +198,21 @@ a {
   flex: 1;
   min-width: 0;
   overflow-x: auto;
-  scrollbar-width: none;
-  -ms-overflow-style: none;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
 }
 
 .nav-links::-webkit-scrollbar {
-  display: none;
+  height: 4px;
+}
+
+.nav-links::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+.nav-links::-webkit-scrollbar-thumb {
+  background: var(--hairline-strong);
+  border-radius: 2px;
 }
 
 .nav-links a {
@@ -997,8 +1016,8 @@ a {
   color: var(--text-3);
 }
 
-.activity-income {
-  color: var(--income) !important;
+.activity-meta .activity-income {
+  color: var(--income);
   font-weight: 500;
 }
 
@@ -1103,7 +1122,9 @@ a {
 
 .timeline-track {
   position: absolute;
-  /* padding-top(8) + phases(28) + gap(16) + week pad(8) + half dot(9) - half track(2) = 67 */
+  /* Vertical centerline through week dots: timeline padding(8) + phases(28)
+     + phase margin(16) + week pad(8) + half dot(9) - half track(2) = 67.
+     Keep in sync if any of those layout values change. */
   top: 67px;
   left: 0;
   right: 0;
@@ -1844,10 +1865,6 @@ a {
 
 .rule-card:last-child {
   border-bottom: none;
-}
-
-.rule-card:first-child {
-  border-left: none;
 }
 
 .rule-number {
