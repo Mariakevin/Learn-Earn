@@ -453,7 +453,7 @@ a {
   stroke-dashoffset: 578.05;
   transform: rotate(-90deg);
   transform-origin: 120px 120px;
-  animation: dial-draw 0.7s var(--ease-out) 0.12s both;
+  animation: dial-draw 0.7s var(--ease-out) 0.1s both;
 }
 
 @keyframes dial-draw {
@@ -1190,7 +1190,12 @@ a {
   border: none;
 }
 
-.timeline-week:hover {
+.timeline-week:hover,
+.timeline-week:focus-visible {
+  background: var(--gold-soft);
+}
+
+.timeline-week:active {
   background: var(--gold-soft);
 }
 
@@ -1215,6 +1220,17 @@ a {
   background: var(--gold);
   border-color: var(--gold);
   box-shadow: 0 0 0 3px var(--gold-soft);
+}
+
+@media (forced-colors: active) {
+  .week-dot.active {
+    outline: 2px solid CanvasText;
+    outline-offset: 2px;
+  }
+
+  .timeline-week[aria-current="true"] .week-label {
+    font-weight: 700;
+  }
 }
 
 .week-label {
@@ -1371,6 +1387,11 @@ a {
   border: 2px solid var(--ink);
   border-radius: 50%;
   cursor: pointer;
+  transition: background 140ms var(--ease-out);
+}
+
+.calc-slider::-moz-range-thumb:hover {
+  background: var(--gold-dim);
 }
 
 .calc-slider:disabled {
@@ -2211,6 +2232,10 @@ a {
 
 ::view-transition-old(week-detail),
 ::view-transition-new(week-detail) {
+  animation-duration: 180ms;
+}
+
+::view-transition-group(week-detail) {
   animation-duration: 180ms;
 }
 

@@ -1,0 +1,228 @@
+plan_id: 20260922-animations-effects-transitions
+objective: >
+  Cleanup verify + remove hero start/target dates + research animation/effect/transition best practices + implement motion improvements under vanilla constraints
+complexity: MEDIUM
+status: completed
+created: 2026-09-22
+base_commit: 713b10b
+completed: 2026-09-23
+gate_verdict: approve
+gate_score: 100
+
+context_envelope: context_envelope.json
+working_dir: /home/Marayn/Desktop/Earn
+
+tasks:
+  - id: cleanup-verify
+    wave: 1
+    agent: general
+    status: completed
+    result: no-op
+    deps: []
+    description: >
+      Re-verify inventory after commit 713b10b (working tree reported clean).
+      Run `ls -a` and `git status --porcelain`. Compare against the KEEP list.
+      Remove ONLY new unwanted files/folders found since 713b10b, and only if
+      they are clearly stray (temp screenshots, scratch dirs, editor droppings).
+      Do NOT touch .engram/, node_modules/, .git/, or any KEEP source file.
+    keep_list:
+      - index.html
+      - styles.css
+      - app.js
+      - earning_plan.md
+      - favicon.svg
+      - manifest.webmanifest
+      - package.json
+      - package-lock.json
+      - eslint.config.js
+      - .htmlvalidate.json
+      - .prettierignore
+      - .stylelintrc.json
+      - .gitignore
+      - .github/
+      - node_modules/
+      - .engram/
+      - .git/
+      - docs/
+    acceptance:
+      - git status reviewed; result recorded (clean, or list of removals with reason)
+      - KEEP list intact; .engram/ and node_modules/ untouched
+      - if nothing unwanted found: task passes as no-op (expected outcome)
+    fallback_agent: general
+
+  - id: remove-dates
+    wave: 1
+    agent: gem-implementer
+    status: completed
+    result: start-date-and-target-meta-removed
+    deps: []
+    description: >
+      Remove the hero meta strip start-date and target-date cells in
+      index.html (~lines 80-93): delete the .meta-item containing
+      "Start Date" / "Sep 17, 2026" and the .meta-item containing
+      "Target" / "Feb 2027". Keep the "Goal" meta-item
+      ("Rs30K-1L+/mo"). Remove only now-dead CSS if a rule becomes
+      fully unreferenced AND the removal is safe; otherwise leave CSS.
+    do_not_remove:
+      - Loop Dial countdown (143 days / FEB 2027 center - signature element)
+      - earning_plan.md dates
+      - footer "Last updated"
+      - KPI "Target: N" metric labels (index.html ~184, 225, 246)
+      - timeline / platform date content
+      - Career Targets section heading/content (~1488+)
+    acceptance:
+      - grep "Start Date" and hero "Target" meta-item gone from index.html
+      - grep confirms dial FEB 2027 / countdown, earning_plan.md dates,
+        footer Last updated, and KPI "Target:" labels all still present
+      - Goal meta-item still present
+      - page renders: hero meta strip has exactly one remaining item (Goal)
+      - ASCII-only edit except any existing Rs symbol untouched
+      - npx prettier --check index.html passes after edit
+    fallback_agent: general
+
+  - id: motion-research
+    wave: 2
+    agent: gem-researcher
+    status: completed
+    result: 8-do-10-skip-findings-md
+    deps: []
+    parallel_safe_with_wave1: true
+    description: >
+      Research animations, effects, and transitions best practices for
+      frontend, grounded ONLY in this stack: vanilla zero-build HTML/CSS/JS,
+      no GSAP/libraries/bundlers, prefers-reduced-motion kill-switch already
+      present, motion tokens + one orchestrated dial-draw load sequence,
+      frontend-philosophy "one orchestrated moment" rule. Filter every
+      finding through fit/skip for this codebase. Read-only: does not edit
+      files, so it can run concurrently with wave 1 (note: may observe
+      pre-removal hero lines if it reads index.html mid-edit; findings must
+      be re-validated against final index.html at implement time).
+    research_axes:
+      - CSS transition/animation performance (transform/opacity, will-change discipline)
+      - timing/easing best practices vs existing --ease-out cubic-bezier(0.2,0.8,0.2,1)
+      - entrance/stagger rules (hero OK, data tables NO - prior digest 2026-09-22)
+      - view-transition API usage already present (week-detail, 180ms) - extend or leave
+      - micro-interactions for dense tools (sliders, checklist, timeline buttons)
+      - prefers-reduced-motion / forced-colors / save-data respect
+      - scroll-driven animations (CSS only if any; NO scroll-scrub libraries)
+      - focus/hover/active state feedback without reintroducing hover-lift scatter
+      - load sequence budget <=800ms discipline
+    output_contract: >
+      Actionable findings list. Each item MUST include: title, summary,
+      source URL(s), DO or SKIP verdict, fit rationale for this vanilla stack,
+      target file:line or selector, reduced-motion requirement, risk notes.
+      SKIP items must state why (e.g. needs library, violates one-moment rule,
+      reintroduces scattered lifts). Deliver as findings.md in the plan dir
+      (mandatory path).
+    acceptance:
+      - every finding has DO/SKIP + fit rationale + reduced-motion note
+      - every finding cites verifiable source URL(s)
+      - no recommendation requires GSAP, bundler, Tailwind, or React
+      - no recommendation reintroduces scattered hover-lift anti-pattern
+      - DO list is implementable within index.html / styles.css / app.js only
+    fallback_agent: general
+
+  - id: motion-implement
+    wave: 3
+    agent: gem-implementer
+    status: completed
+    result: all-8-dos-implemented-budget-800ms
+    deps: [motion-research, remove-dates]
+    description: >
+      Apply only research findings marked DO that fit the vanilla stack.
+      Preserve: dial-draw as the single orchestrated load moment, rise-in KPI
+      stagger, 150-300ms hover timings, prefers-reduced-motion kill-switch
+      (styles.css ~2218+), all 18 getElementById hooks, STATE_KEY
+      "gate-earn-dashboard-v1", lift policy (.top3-card and .pws-link keep
+      translateY(-1px); nothing else gains a lift). Re-validate research
+      line targets against post-remove-dates index.html before editing.
+    acceptance:
+      - only DO findings implemented; SKIP findings untouched
+      - load sequence still <=800ms; still one orchestrated moment
+      - reduced-motion still jumps all animations/transitions to final state
+      - 18 hooks + STATE_KEY intact (grep-verified)
+      - lift policy intact: only .top3-card + .pws-link translateY(-1px)
+      - "a11y not regressed: AA contrast, 44px targets, focus-visible gold ring, keyboard timeline buttons, labeled calc sliders, aria progressbars"
+      - ASCII-only edits except Rs symbol
+      - verification commands all pass (see gates)
+    verification:
+      - npx prettier --check index.html styles.css app.js
+      - npx tsc --allowJs --checkJs false --noEmit app.js
+      - npx eslint app.js
+      - node --check app.js
+      - note: stylelint NOT in bash allowlist - do not run; flag to reviewer
+    fallback_agent: general
+
+  - id: gate-ship
+    wave: 4
+    agent: gem-reviewer
+    status: completed
+    result: approve-100
+    deps: [motion-implement, cleanup-verify]
+    description: >
+      Review the full wave diff against acceptance criteria, a11y bar,
+      leave_alone list, and DO/SKIP contract. Re-run verification commands.
+      Confirm no .engram/ or node_modules/ staged. On pass: stage explicit
+      file list (index.html, styles.css, app.js, plan docs), commit, push
+      origin/main via git tools.
+    acceptance:
+      - all task acceptance criteria met
+      - verification suite green (prettier, tsc, eslint, node --check)
+      - leave_alone list untouched
+      - commit staged with explicit paths only; never .engram/ or node_modules/
+      - push to origin/main succeeds
+    fallback_agent: general
+
+contracts:
+  - from_task: motion-research
+    to_task: motion-implement
+    artifact: findings with DO/SKIP per item, file:line targets, reduced-motion requirements
+  - from_task: remove-dates
+    to_task: motion-implement
+    artifact: final index.html hero structure (line anchors re-validated)
+  - from_task: motion-implement
+    to_task: gate-ship
+    artifact: working-tree diff + green verification output
+
+waves:
+  - wave: 1
+    name: cleanup-and-dates
+    tasks: [cleanup-verify, remove-dates]
+    parallel: true
+    status: completed
+  - wave: 2
+    name: motion-research
+    tasks: [motion-research]
+    parallel_with_wave: 1
+    note: read-only research may run concurrently with wave 1 for max concurrency
+    status: completed
+  - wave: 3
+    name: motion-implement
+    tasks: [motion-implement]
+    depends_on: [motion-research, remove-dates]
+    status: completed
+  - wave: 4
+    name: gate-ship
+    tasks: [gate-ship]
+    depends_on: [motion-implement, cleanup-verify]
+    status: completed
+
+risks:
+  - id: gem-agent-freemium-failures
+    detail: gem-designer/gem-debugger/gem-browser-tester often fail on free tier; gem-researcher/gem-implementer/gem-reviewer usually work
+    mitigation: "fallback_agent: general on every task"
+  - id: stale-line-anchors
+    detail: research may read index.html before remove-dates lands; line numbers shift
+    mitigation: implement task re-validates selectors/anchors against final file
+  - id: stylelint-unavailable
+    detail: stylelint not in bash allowlist
+    mitigation: note for reviewer; rely on prettier/eslint/tsc/node --check
+  - id: motion-scope-creep
+    detail: research may suggest libraries, scroll-scrub, or scattered lifts
+    mitigation: DO/SKIP contract + leave_alone list + KEEP_VANILLA constraint
+  - id: reduced-motion-regression
+    detail: new keyframes/transitions could bypass kill-switch
+    mitigation: acceptance requires global prefers-reduced-motion block still covers all new motion
+  - id: hooks-localstorage-break
+    detail: edits to index.html/app.js could drop one of 18 IDs or STATE_KEY
+    mitigation: grep gate in motion-implement + gate-ship acceptance

@@ -1,0 +1,237 @@
+{
+  "plan_id": "20260922-animations-effects-transitions",
+  "created": "2026-09-22",
+  "base_commit": "713b10b",
+  "working_dir": "/home/Marayn/Desktop/Earn",
+  "tech_stack": {
+    "approach": "A pure vanilla",
+    "files": ["index.html", "styles.css", "app.js"],
+    "build_step": false,
+    "keep_vanilla": true,
+    "forbidden": [
+      "Tailwind",
+      "React",
+      "bundler",
+      "GSAP",
+      "scroll-scrub libraries"
+    ],
+    "supporting": [
+      "earning_plan.md",
+      "favicon.svg",
+      "manifest.webmanifest",
+      "package.json",
+      "package-lock.json",
+      "eslint.config.js",
+      ".htmlvalidate.json",
+      ".prettierignore",
+      ".stylelintrc.json",
+      ".github/"
+    ]
+  },
+  "constraints": {
+    "ascii_only_except": "₹ (rupee sign)",
+    "load_sequence_budget_ms": 800,
+    "hover_timing_ms": [150, 300],
+    "reduced_motion": "global kill-switch required for any new motion",
+    "a11y_bar": [
+      "WCAG AA contrast (4.5:1 body, 3:1 UI)",
+      "44px minimum targets",
+      "focus-visible gold ring",
+      "keyboard-operable timeline buttons",
+      "labeled calc sliders (6)",
+      "aria progressbars",
+      "never color-alone coding"
+    ],
+    "git": {
+      "stage": "explicit file lists only",
+      "never_commit": [".engram/", "node_modules/"],
+      "push_target": "origin/main via git tools after gate",
+      "working_tree_at_start": "clean after 713b10b"
+    },
+    "verification": [
+      "npx prettier --check index.html styles.css app.js",
+      "npx tsc --allowJs --checkJs false --noEmit app.js",
+      "npx eslint app.js",
+      "node --check app.js"
+    ],
+    "verification_notes": "stylelint NOT in bash allowlist - do not run; flag to reviewer",
+    "subagent_reality": {
+      "often_fail_free_tier": [
+        "gem-designer",
+        "gem-debugger",
+        "gem-browser-tester"
+      ],
+      "usually_work": ["gem-researcher", "gem-implementer", "gem-reviewer"],
+      "reliable_fallback": "general"
+    }
+  },
+  "conventions": {
+    "skills": ["frontend-philosophy", "frontend-design", "code-philosophy"],
+    "motion_rule": "one orchestrated moment (frontend-philosophy purposeful motion pillar)",
+    "mobile_first": "base rules small screens; min-width 640/768/960 enhance; max-width 639/480",
+    "spacing_scale": [4, 8, 12, 16, 24, 32, 48, 64],
+    "elevation": "surface ladder (ink, surface-1/2/3), never drop shadows",
+    "gold_usage": "progress/achievement only; gold fills use --gold-ink dark text",
+    "income_usage": "--income green = money only",
+    "gradients": "no purple or indigo gradients anywhere",
+    "lifts_policy": "only .top3-card and .pws-link keep translateY(-1px); do not reintroduce scattered hover-lift anti-pattern",
+    "user_pattern": "research-first -> implement -> review gate -> commit+push origin/main"
+  },
+  "prior_decisions": [
+    {
+      "id": "color-wave",
+      "decision": "do-nothing palette preserved; CP-1..CP-12 documented at styles.css header (lines 5-21)",
+      "date": "2026-09-22"
+    },
+    {
+      "id": "polish-wave-lifts",
+      "decision": "scattered hover lifts killed; only .top3-card and .pws-link retain translateY(-1px)",
+      "refs": ["styles.css:848-862", "styles.css:1980-1999"]
+    },
+    {
+      "id": "motion-research-2026-09-22",
+      "decision": "no full-page preloader; no scroll-scrub libraries; CSS+small JS only; reduced-motion jumps to final state; micro-motion only in dense tools; entrance stagger OK on hero, NOT on data tables"
+    },
+    {
+      "id": "keep-vanilla",
+      "decision": "Approach A pure vanilla, 3 files, zero build"
+    },
+    {
+      "id": "timeline-a11y",
+      "decision": "timeline weeks are <button>s; 6 calc sliders labeled; --text-3 AA-fixed (dark #939bab / light #4b5563)"
+    },
+    {
+      "id": "cleanup-commit",
+      "decision": "unwanted files already removed in 713b10b; this wave only re-verifies and removes NEW strays"
+    }
+  ],
+  "research_digest": {
+    "status": "placeholder - to be filled by motion-research task",
+    "prior_2026_09_22": [
+      "no full-page preloader",
+      "no scroll-scrub libraries",
+      "CSS + small JS only",
+      "reduced-motion jumps to final state",
+      "micro-motion only in dense tools",
+      "entrance stagger OK on hero, not on data tables"
+    ],
+    "findings": [],
+    "output_contract": "each finding: title, sources, DO|SKIP, fit rationale, file:line target, reduced-motion requirement, risk"
+  },
+  "hooks": {
+    "STATE_KEY": "gate-earn-dashboard-v1",
+    "state_key_locations": ["app.js:8", "index.html:34"],
+    "element_ids_count": 18,
+    "element_ids": [
+      "themeToggle",
+      "themeIcon",
+      "leetcodeCount",
+      "incomeCount",
+      "activeLoops",
+      "weekCount",
+      "leetcodeProgress",
+      "incomeProgress",
+      "loopProgress",
+      "weekProgress",
+      "timelineWeeks",
+      "timelineDetailContent",
+      "calcTotal",
+      "calcRange",
+      "checklistProgress",
+      "checklistLabel",
+      "pwsProgress",
+      "pwsLabel"
+    ],
+    "classes": [
+      ".stat-btn",
+      ".timeline-week",
+      ".calc-item",
+      ".calc-check",
+      ".calc-slider",
+      ".calc-value",
+      ".check-input",
+      ".top3-card",
+      ".pws-link",
+      ".meta-item",
+      ".meta-label",
+      ".meta-value"
+    ],
+    "must_remain_intact": true
+  },
+  "motion_baseline": {
+    "tokens": {
+      "--ease-out": "cubic-bezier(0.2, 0.8, 0.2, 1)",
+      "duration_typical_transition_ms": 140,
+      "duration_hover_ms": "150-300",
+      "duration_entrance_ms": "450-550",
+      "duration_dial_draw_ms": 700,
+      "duration_progress_transition_ms": 550,
+      "duration_view_transition_week_detail_ms": 180,
+      "load_sequence_budget_ms": 800,
+      "note": "dur-fast ~120-150ms / dur-slow ~400-600ms describe observed bands; literals are inline, not separate CSS vars"
+    },
+    "keyframes": [
+      {
+        "name": "dial-draw",
+        "ref": "styles.css:456,459",
+        "role": "signature orchestrated load moment - DO NOT duplicate or replace"
+      },
+      {
+        "name": "rise-in",
+        "ref": "styles.css:433,538,605,618",
+        "role": "hero + KPI stagger entrance"
+      }
+    ],
+    "existing_effects": [
+      "progress bar width transition 0.55s var(--ease-out) (styles.css:633)",
+      "view-transition week-detail 180ms (styles.css:2212-2215)",
+      "border/color/background hover transitions 140ms var(--ease-out) throughout"
+    ],
+    "reduced_motion": {
+      "ref": "styles.css:2217-2236",
+      "behavior": "scroll-behavior auto; animation/transition durations forced to 0.01ms; iteration-count 1; view-transition animations none",
+      "js_mirror": "app.js:391 matches prefers-reduced-motion: reduce"
+    },
+    "lifts": [
+      {
+        "selector": ".top3-card:hover",
+        "ref": "styles.css:860-862",
+        "transform": "translateY(-1px)"
+      },
+      {
+        "selector": ".pws-link:hover",
+        "ref": "styles.css:1997-1999",
+        "transform": "translateY(-1px)"
+      }
+    ]
+  },
+  "leave_alone": [
+    "Loop Dial countdown (143 days / FEB 2027 center) and dial-draw keyframe",
+    "do-nothing palette + CP-1..CP-12 doctrine at styles.css header",
+    "Inter + Plex font pairing",
+    "dark-default architecture + light-theme accent remaps",
+    "surface ladder elevation (no drop shadows)",
+    "lifts policy: only .top3-card + .pws-link translateY(-1px)",
+    "earning_plan.md dates",
+    "footer 'Last updated'",
+    "KPI 'Target: N' metric labels (index.html ~184, 225, 246)",
+    "timeline / platform date content",
+    "Career Targets section (~index.html:1488+)",
+    "Goal hero meta-item (Rs30K-1L+/mo)",
+    ".engram/ directory",
+    "node_modules/ directory",
+    "all 18 element ID hooks + STATE_KEY gate-earn-dashboard-v1",
+    "prefers-reduced-motion global kill-switch",
+    "one-orchestrated-moment load sequence (<=800ms)"
+  ],
+  "date_removal_scope": {
+    "target_file": "index.html",
+    "target_lines_approx": "80-93 (hero-meta strip)",
+    "remove": [
+      { "label": "Start Date", "value": "Sep 17, 2026", "lines": "81-84" },
+      { "label": "Target", "value": "Feb 2027", "lines": "85-88" }
+    ],
+    "keep": [{ "label": "Goal", "value": "Rs30K-1L+/mo", "lines": "89-92" }],
+    "dead_css": "remove only if a rule becomes fully unreferenced and removal is safe; otherwise leave"
+  }
+}
