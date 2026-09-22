@@ -6,6 +6,7 @@
 :root,
 [data-theme="dark"] {
   color-scheme: dark;
+
   --ink: #0b0d12;
   --surface-1: #12141b;
   --surface-2: #1a1d26;
@@ -13,21 +14,21 @@
   --text-1: #e8eaed;
   --text-2: #a8adb8;
   --text-3: #939bab;
-  --hairline: rgba(255, 255, 255, 0.1);
-  --hairline-strong: rgba(255, 255, 255, 0.16);
+  --hairline: rgb(255 255 255 / 10%);
+  --hairline-strong: rgb(255 255 255 / 16%);
   --gold: #f5b942;
   --gold-dim: #c9962f;
   --gold-ink: #0b0d12;
-  --gold-soft: rgba(245, 185, 66, 0.12);
-  --gold-line: rgba(245, 185, 66, 0.38);
-  --gold-tint-1: rgba(245, 185, 66, 0.16);
-  --gold-tint-2: rgba(245, 185, 66, 0.11);
-  --gold-tint-3: rgba(245, 185, 66, 0.08);
-  --gold-tint-4: rgba(245, 185, 66, 0.05);
-  --gold-tint-5: rgba(245, 185, 66, 0.03);
-  --gold-tint-6: rgba(245, 185, 66, 0.02);
+  --gold-soft: rgb(245 185 66 / 12%);
+  --gold-line: rgb(245 185 66 / 38%);
+  --gold-tint-1: rgb(245 185 66 / 16%);
+  --gold-tint-2: rgb(245 185 66 / 11%);
+  --gold-tint-3: rgb(245 185 66 / 8%);
+  --gold-tint-4: rgb(245 185 66 / 5%);
+  --gold-tint-5: rgb(245 185 66 / 3%);
+  --gold-tint-6: rgb(245 185 66 / 2%);
   --income: #3ddc84;
-  --top-hi: 0 1px 0 rgba(255, 255, 255, 0.04);
+  --top-hi: 0 1px 0 rgb(255 255 255 / 4%);
   --ease-out: cubic-bezier(0.2, 0.8, 0.2, 1);
   --radius-sm: 6px;
   --radius-md: 8px;
@@ -36,8 +37,9 @@
 /* ===== Tokens: light ===== */
 [data-theme="light"] {
   color-scheme: light;
+
   --ink: #f5f6f8;
-  --surface-1: #ffffff;
+  --surface-1: #fff;
   --surface-2: #eef1f6;
   --surface-3: #e3e7ef;
   --text-1: #10141c;
@@ -47,15 +49,15 @@
   --hairline-strong: #c9cfdb;
   --gold: #854d0e;
   --gold-dim: #78350f;
-  --gold-ink: #ffffff;
-  --gold-soft: rgba(224, 168, 46, 0.14);
-  --gold-line: rgba(133, 77, 14, 0.45);
-  --gold-tint-1: rgba(224, 168, 46, 0.16);
-  --gold-tint-2: rgba(224, 168, 46, 0.12);
-  --gold-tint-3: rgba(224, 168, 46, 0.09);
-  --gold-tint-4: rgba(224, 168, 46, 0.06);
-  --gold-tint-5: rgba(224, 168, 46, 0.04);
-  --gold-tint-6: rgba(224, 168, 46, 0.02);
+  --gold-ink: #fff;
+  --gold-soft: rgb(224 168 46 / 14%);
+  --gold-line: rgb(133 77 14 / 45%);
+  --gold-tint-1: rgb(224 168 46 / 16%);
+  --gold-tint-2: rgb(224 168 46 / 12%);
+  --gold-tint-3: rgb(224 168 46 / 9%);
+  --gold-tint-4: rgb(224 168 46 / 6%);
+  --gold-tint-5: rgb(224 168 46 / 4%);
+  --gold-tint-6: rgb(224 168 46 / 2%);
   --income: #047857;
   --top-hi: none;
 }
@@ -76,7 +78,7 @@ html {
 
 body {
   font-family:
-    "Inter",
+    Inter,
     -apple-system,
     BlinkMacSystemFont,
     "Segoe UI",
@@ -279,7 +281,7 @@ a {
   overflow: hidden;
   background: var(--ink);
   border-bottom: 1px solid var(--hairline);
-  padding: 48px 16px 48px;
+  padding: 48px 16px;
 }
 
 .hero::before {
@@ -291,7 +293,7 @@ a {
   height: min(640px, 90vw);
   background: radial-gradient(
     circle,
-    rgba(245, 185, 66, 0.14) 0%,
+    rgb(245 185 66 / 14%) 0%,
     transparent 68%
   );
   pointer-events: none;
@@ -410,6 +412,7 @@ a {
 .hero-dial {
   display: flex;
   justify-content: center;
+  animation: rise-in 0.55s var(--ease-out) 0.14s both;
 }
 
 .loop-dial {
@@ -439,6 +442,7 @@ a {
   from {
     stroke-dashoffset: 628.32;
   }
+
   to {
     stroke-dashoffset: 578.05;
   }
@@ -519,12 +523,15 @@ a {
 .kpi-cell:nth-child(1) {
   animation-delay: 0.05s;
 }
+
 .kpi-cell:nth-child(2) {
   animation-delay: 0.11s;
 }
+
 .kpi-cell:nth-child(3) {
   animation-delay: 0.17s;
 }
+
 .kpi-cell:nth-child(4) {
   animation-delay: 0.23s;
 }
@@ -582,6 +589,7 @@ a {
     opacity: 0;
     transform: translateY(8px);
   }
+
   to {
     opacity: 1;
     transform: translateY(0);
@@ -590,10 +598,6 @@ a {
 
 .hero-grid > .hero-copy {
   animation: rise-in 0.5s var(--ease-out) 0.02s both;
-}
-
-.hero-dial {
-  animation: rise-in 0.55s var(--ease-out) 0.14s both;
 }
 
 /* ===== Progress bars ===== */
@@ -672,6 +676,8 @@ a {
 .section {
   margin-bottom: 48px;
   scroll-margin-top: 72px;
+  content-visibility: auto;
+  contain-intrinsic-size: auto 600px;
 }
 
 .section-header {
@@ -1122,6 +1128,7 @@ a {
 
 .timeline-track {
   position: absolute;
+
   /* Vertical centerline through week dots: timeline padding(8) + phases(28)
      + phase margin(16) + week pad(8) + half dot(9) - half track(2) = 67.
      Keep in sync if any of those layout values change. */
@@ -2038,7 +2045,7 @@ a {
 }
 
 /* ===== Responsive ===== */
-@media (min-width: 640px) {
+@media (width >= 640px) {
   .kpi-strip {
     grid-template-columns: repeat(2, 1fr);
   }
@@ -2070,7 +2077,7 @@ a {
   }
 }
 
-@media (min-width: 768px) {
+@media (width >= 768px) {
   .section {
     margin-bottom: 64px;
   }
@@ -2097,7 +2104,7 @@ a {
   }
 }
 
-@media (min-width: 960px) {
+@media (width >= 960px) {
   .hero-grid {
     grid-template-columns: 7fr 5fr;
     gap: 48px;
@@ -2152,7 +2159,7 @@ a {
   }
 }
 
-@media (max-width: 639px) {
+@media (width <= 639px) {
   .phase-band {
     font-size: 0.5625rem;
     padding: 8px 4px;
@@ -2164,7 +2171,7 @@ a {
   }
 }
 
-@media (max-width: 480px) {
+@media (width <= 480px) {
   .meta-item {
     flex: 1 1 100%;
     border-right: none;
@@ -2180,6 +2187,16 @@ a {
   }
 }
 
+/* ===== View Transitions (week detail swap) ===== */
+#timelineDetailContent {
+  view-transition-name: week-detail;
+}
+
+::view-transition-old(week-detail),
+::view-transition-new(week-detail) {
+  animation-duration: 180ms;
+}
+
 /* ===== Reduced motion ===== */
 @media (prefers-reduced-motion: reduce) {
   html {
@@ -2192,5 +2209,11 @@ a {
     animation-duration: 0.01ms !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+  }
+
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) {
+    animation: none !important;
   }
 }

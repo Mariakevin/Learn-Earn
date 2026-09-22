@@ -78,13 +78,33 @@
     return { ...defaultState };
   }
 
+  let saveTimer = null;
+
   function saveState() {
+    if (saveTimer !== null) {
+      clearTimeout(saveTimer);
+      saveTimer = null;
+    }
     try {
       localStorage.setItem(STATE_KEY, JSON.stringify(state));
     } catch (e) {
       console.warn("Failed to save state:", e);
     }
   }
+
+  function scheduleSave() {
+    if (saveTimer !== null) clearTimeout(saveTimer);
+    saveTimer = setTimeout(() => {
+      saveTimer = null;
+      saveState();
+    }, 150);
+  }
+
+  // Cross-tab sync: storage fires only in other tabs, so reload cannot loop.
+  window.addEventListener("storage", (e) => {
+    if (e.key !== STATE_KEY || e.newValue === null) return;
+    location.reload();
+  });
 
   // ===== Theme Toggle =====
   const themeToggle = document.getElementById("themeToggle");
@@ -347,23 +367,34 @@
   }
 
   function showWeekDetail(data) {
-    timelineDetailContentEl.innerHTML = `
-      <h3>${data.title}</h3>
-      <p>${data.desc}</p>
-      <div class="detail-targets">
-        ${data.targets.map((t) => `<span>${t}</span>`).join("")}
-      </div>
-    `;
-    state.activeWeek = clampInt(data.week, 1, 13, 1);
-    if (typeof data.loops === "number" && Number.isFinite(data.loops)) {
-      state.loopsActive = clampInt(data.loops, 0, 8, 0);
-      displayedLoops = state.loopsActive;
+    const swap = () => {
+      timelineDetailContentEl.innerHTML = `
+        <h3>${data.title}</h3>
+        <p>${data.desc}</p>
+        <div class="detail-targets">
+          ${data.targets.map((t) => `<span>${t}</span>`).join("")}
+        </div>
+      `;
+      state.activeWeek = clampInt(data.week, 1, 13, 1);
+      if (typeof data.loops === "number" && Number.isFinite(data.loops)) {
+        state.loopsActive = clampInt(data.loops, 0, 8, 0);
+        displayedLoops = state.loopsActive;
+      } else {
+        displayedLoops = null;
+      }
+      saveState();
+      updateStats();
+      renderTimeline();
+    };
+
+    const reduced = window.matchMedia(
+      "(prefers-reduced-motion: reduce)",
+    ).matches;
+    if (!reduced && document.startViewTransition) {
+      document.startViewTransition(swap);
     } else {
-      displayedLoops = null;
+      swap();
     }
-    saveState();
-    updateStats();
-    renderTimeline();
   }
 
   // ===== Income Calculator =====
@@ -429,7 +460,6 @@
       state.calcSliders[i] = entry.pos;
       state.calcChecks[i] = entry.checked;
     });
-    saveState();
   }
 
   calcItems.forEach((item, i) => {
@@ -440,8 +470,18 @@
     }
     if (state.calcChecks[i] !== undefined) check.checked = state.calcChecks[i];
 
-    slider.addEventListener("input", updateCalculator);
-    check.addEventListener("change", updateCalculator);
+    slider.addEventListener("input", () => {
+      updateCalculator();
+      scheduleSave();
+    });
+    slider.addEventListener("change", () => {
+      updateCalculator();
+      saveState();
+    });
+    check.addEventListener("change", () => {
+      updateCalculator();
+      saveState();
+    });
   });
 
   updateCalculator();

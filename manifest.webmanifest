@@ -1,0 +1,16 @@
+{
+  "name": "GATE CSE 2027 Earn Dashboard",
+  "short_name": "Earn Dashboard",
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#0B0D12",
+  "background_color": "#0B0D12",
+  "icons": [
+    {
+      "src": "favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    }
+  ]
+}

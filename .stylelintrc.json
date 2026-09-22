@@ -1,0 +1,22 @@
+{
+  "extends": "stylelint-config-standard",
+  "rules": {
+    "selector-class-pattern": null,
+    "custom-property-pattern": null,
+    "keyframes-name-pattern": null,
+    "no-invalid-position-at-import-rule": null,
+    "property-no-vendor-prefix": [
+      true,
+      {
+        "ignoreProperties": ["appearance", "overflow-scrolling"]
+      }
+    ],
+    "selector-no-vendor-prefix": true,
+    "value-no-vendor-prefix": true,
+    "at-rule-no-vendor-prefix": true,
+    "media-feature-name-no-vendor-prefix": true,
+    "selector-id-pattern": null,
+    "no-descending-specificity": null,
+    "custom-property-empty-line-before": null
+  }
+}

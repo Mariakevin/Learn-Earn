@@ -1,0 +1,7 @@
+node_modules
+.engram
+.gstack
+.playwright-mcp
+*.png
+earning_plan.md
+package-lock.json
