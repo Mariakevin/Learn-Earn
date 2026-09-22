@@ -2121,7 +2121,6 @@ a {
   .kpi-strip {
     grid-template-columns: repeat(4, minmax(200px, 1fr));
     gap: 0;
-    margin-top: -1px;
   }
 
   .kpi-cell {
