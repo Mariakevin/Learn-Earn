@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>GATE CSE 2027 — Earning Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <!-- Theme Toggle -->
+  <button class="theme-toggle" id="themeToggle" aria-label="Toggle dark/light mode">
+    <span class="theme-icon" id="themeIcon">☀️</span>
+  </button>
+
+  <!-- Hero Section -->
+  <header class="hero">
+    <div class="hero-content">
+      <div class="hero-badge">LIE Loop Strategy</div>
+      <h1>Earn While You Learn</h1>
+      <p class="hero-subtitle">GATE CSE 2027 — Rs 30K-1L+/month while preparing for the exam</p>
+      <div class="hero-meta">
+        <div class="meta-item">
+          <span class="meta-label">Start Date</span>
+          <span class="meta-value">Sep 17, 2026</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Target</span>
+          <span class="meta-value">Feb 2027</span>
+        </div>
+        <div class="meta-item">
+          <span class="meta-label">Goal</span>
+          <span class="meta-value">Rs 30K-1L+/mo</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-glow"></div>
+  </header>
+
+  <main class="container">
+    <!-- Stats Row -->
+    <section class="stats-row">
+      <div class="stat-card">
+        <div class="stat-icon">🎯</div>
+        <div class="stat-info">
+          <span class="stat-number" id="leetcodeCount">0</span>
+          <span class="stat-label">LeetCode Solved</span>
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar">
+            <div class="progress-fill" id="leetcodeProgress" style="width: 0%"></div>
+          </div>
+          <span class="stat-target">Target: 240</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">💰</div>
+        <div class="stat-info">
+          <span class="stat-number" id="incomeCount">₹0</span>
+          <span class="stat-label">Monthly Income</span>
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar">
+            <div class="progress-fill income-fill" id="incomeProgress" style="width: 0%"></div>
+          </div>
+          <span class="stat-target">Target: ₹1,00,000</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">🔄</div>
+        <div class="stat-info">
+          <span class="stat-number" id="activeLoops">0/8</span>
+          <span class="stat-label">Active LIE Loops</span>
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar">
+            <div class="progress-fill loop-fill" id="loopProgress" style="width: 0%"></div>
+          </div>
+          <span class="stat-target">Target: 8/8</span>
+        </div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-icon">📅</div>
+        <div class="stat-info">
+          <span class="stat-number" id="weekCount">Week 1</span>
+          <span class="stat-label">Current Week</span>
+        </div>
+        <div class="stat-progress">
+          <div class="progress-bar">
+            <div class="progress-fill week-fill" id="weekProgress" style="width: 8%"></div>
+          </div>
+          <span class="stat-target">12 weeks total</span>
+        </div>
+      </div>
+    </section>
+
+    <!-- LIE Loop Section -->
+    <section class="section">
+      <div class="section-header">
+        <h2>The LIE Loop</h2>
+        <p class="section-desc">Every study hour feeds BOTH exam prep AND wallet — never waste time</p>
+      </div>
+      <div class="lie-loop">
+        <div class="loop-step" data-step="1">
+          <div class="loop-number">1</div>
+          <div class="loop-content">
+            <h3>Study</h3>
+            <p>Learn a GATE topic (1-2 weeks)</p>
+          </div>
+        </div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-step" data-step="2">
+          <div class="loop-number">2</div>
+          <div class="loop-content">
+            <h3>Build</h3>
+            <p>Create a real project (1-2 weeks)</p>
+          </div>
+        </div>
+        <div class="loop-arrow">→</div>
+        <div class="loop-step" data-step="3">
+          <div class="loop-number">3</div>
+          <div class="loop-content">
+            <h3>Monetize</h3>
+            <p>Sell on freelancing platforms</p>
+          </div>
+        </div>
+        <div class="loop-arrow loop-arrow-return">↺</div>
+      </div>
+    </section>
+
+    <!-- Earning Tiers -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Earning Tiers</h2>
+        <p class="section-desc">Each activity maps to a GATE subject — income ranges, hours, and timing</p>
+      </div>
+      <div class="tiers-grid">
+        <!-- Tier 1 -->
+        <div class="tier-card tier-1">
+          <div class="tier-header">
+            <span class="tier-badge">Tier 1</span>
+            <span class="tier-priority">HIGH Priority</span>
+          </div>
+          <h3>High Income + High GATE Alignment</h3>
+          <div class="tier-activities">
+            <div class="activity-card">
+              <div class="activity-header">
+                <span class="activity-icon">🏆</span>
+                <span class="activity-name">CP Contests (PDSA)</span>
+              </div>
+              <div class="activity-meta">
+                <span class="activity-income">₹10K-50K/mo</span>
+                <span class="activity-hours">10-15 hrs/mo</span>
+                <span class="activity-timing">Start NOW</span>
+              </div>
+            </div>
+            <div class="activity-card">
+              <div class="activity-header">
+                <span class="activity-icon">🚀</span>
+                <span class="activity-name">Hackathons (DSA+System Design)</span>
+              </div>
+              <div class="activity-meta">
+                <span class="activity-income">₹20K-1L+/win</span>
+                <span class="activity-hours">8-12 hrs/event</span>
+                <span class="activity-timing">Start Oct+</span>
+              </div>
+            </div>
+            <div class="activity-card">
+              <div class="activity-header">
+                <span class="activity-icon">🐛</span>
+                <span class="activity-name">Bug Bounty (CN+OS)</span>
+              </div>
+              <div class="activity-meta">
+                <span class="activity-income">₹5K-50K/mo</span>
+                <span class="activity-hours">5-10 hrs/mo</span>
+                <span class="activity-timing">Start Month 4+</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tier 2 -->
+        <div class="tier-card tier-2">
+          <div class="tier-header">
+            <span class="tier-badge">Tier 2</span>
+            <span class="tier-priority">MEDIUM Priority</span>
+          </div>
+          <h3>Medium Income + GATE-Supportive</h3>
+          <div class="tier-activities">
+            <div class="activity-card">
+              <div class="activity-header">
+                <span class="activity-icon">💻</span>
+                <span class="activity-name">Freelancing Python/SQL (Upwork/Fiverr)</span>
+              </div>
+              <div class="activity-meta">
+                <span class="activity-income">₹10K-50K/mo</span>
+                <span class="activity-hours">15-20 hrs/mo</span>
+                <span class="activity-timing">Start Month 2+</span>
+              </div>
+            </div>
+            <div class="activity-card">
+              <div class="activity-header">
+                <span class="activity-icon">📊</span>
+                <span class="activity-name">Data Analysis Gigs (DBMS+Math)</span>
+              </div>
+              <div class="activity-meta">
+                <span class="activity-income">₹10K-40K/mo</span>
+                <span class="activity-hours">10-15 hrs/mo</span>
+                <span class="activity-timing">Start Month 2+</span>
+              </div>
+            </div>
+            <div class="activity-card">
+              <div class="activity-header">
+                <span class="activity-icon">🐧</span>
+                <span class="activity-name">SRE / Platform Engineering (OS+CN)</span>
+              </div>
+              <div class="activity-meta">
+                <span class="activity-income">₹8-22 LPA</span>
+                <span class="activity-hours">15-20 hrs/mo</span>
+                <span class="activity-timing">Start Month 3+</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tier 3 -->
+        <div class="tier-card tier-3">
+          <div class="tier-header">
+            <span class="tier-badge">Tier 3</span>
+            <span class="tier-priority">Steady Income</span>
+          </div>
+          <h3>Remote Jobs & Online Internships</h3>
+          <div class="tier-activities">
+            <div class="activity-card">
+              <div class="activity-header">
+                <span class="activity-icon">🌐</span>
+                <span class="activity-name">Remote Web Dev Internship</span>
+              </div>
+              <div class="activity-meta">
+                <span class="activity-income">₹5K-25K/mo</span>
+                <span class="activity-hours">15-20 hrs/mo</span>
+                <span class="activity-timing">Start NOW</span>
+              </div>
+            </div>
+            <div class="activity-card">
+              <div class="activity-header">
+                <span class="activity-icon">✍️</span>
+                <span class="activity-name">Technical Writing (API docs/tutorials)</span>
+              </div>
+              <div class="activity-meta">
+                <span class="activity-income">₹5K-25K/mo</span>
+                <span class="activity-hours">5-10 hrs/mo</span>
+                <span class="activity-timing">Start NOW</span>
+              </div>
+            </div>
+            <div class="activity-card">
+              <div class="activity-header">
+                <span class="activity-icon">🎓</span>
+                <span class="activity-name">Forage Virtual Internships</span>
+              </div>
+              <div class="activity-meta">
+                <span class="activity-income">Portfolio only</span>
+                <span class="activity-hours">5-10 hrs/mo</span>
+                <span class="activity-timing">Start NOW</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Tier 4 -->
+        <div class="tier-card tier-4">
+          <div class="tier-header">
+            <span class="tier-badge">Tier 4</span>
+            <span class="tier-priority">High Income Remote</span>
+          </div>
+          <h3>Rs 30K-1L+/month Opportunities</h3>
+          <div class="tier-activities">
+            <div class="activity-card">
+              <div class="activity-header">
+                <span class="activity-icon">⚛️</span>
+                <span class="activity-name">Remote Full Stack Dev (React/Node)</span>
+              </div>
+              <div class="activity-meta">
+                <span class="activity-income">₹15K-80K/mo</span>
+                <span class="activity-hours">20-25 hrs/mo</span>
+                <span class="activity-timing">Start Month 3+</span>
+              </div>
+            </div>
+            <div class="activity-card">
+              <div class="activity-header">
+                <span class="activity-icon">🤖</span>
+                <span class="activity-name">AI/ML Freelancing (LLM/RAG/chatbots)</span>
+              </div>
+              <div class="activity-meta">
+                <span class="activity-income">₹25K-70K/mo</span>
+                <span class="activity-hours">15-20 hrs/mo</span>
+                <span class="activity-timing">Start Month 3+</span>
+              </div>
+            </div>
+            <div class="activity-card">
+              <div class="activity-header">
+                <span class="activity-icon">🔧</span>
+                <span class="activity-name">Verilog/FPGA (COA+DL)</span>
+              </div>
+              <div class="activity-meta">
+                <span class="activity-income">₹15K-50K/mo</span>
+                <span class="activity-hours">15-20 hrs/mo</span>
+                <span class="activity-timing">Start Month 3+</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Interactive Timeline -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Loop Activation Timeline</h2>
+        <p class="section-desc">Week-by-week activation schedule — click a week to see details</p>
+      </div>
+      <div class="timeline" id="timeline">
+        <div class="timeline-track"></div>
+        <div class="timeline-weeks" id="timelineWeeks"></div>
+      </div>
+      <div class="timeline-detail" id="timelineDetail">
+        <div class="timeline-detail-content" id="timelineDetailContent">
+          <h3>Week 1-2: Foundation</h3>
+          <p>Discrete Math, Engg Math — LEARN only. Only active loop: CP contests.</p>
+          <div class="detail-targets">
+            <span>🎯 60 LeetCode</span>
+            <span>💰 Rs 5-10K</span>
+            <span>📚 Math+DM PYQs</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Income Calculator -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Income Calculator</h2>
+        <p class="section-desc">Estimate your monthly earnings based on active activities</p>
+      </div>
+      <div class="calculator">
+        <div class="calc-grid">
+          <div class="calc-item">
+            <label class="calc-label">
+              <input type="checkbox" class="calc-check" data-min="10000" data-max="50000" checked>
+              <span>CP Contests (PDSA)</span>
+            </label>
+            <div class="calc-slider-wrap">
+              <input type="range" class="calc-slider" min="0" max="100" value="50" data-min="10000" data-max="50000">
+              <span class="calc-value">₹30K</span>
+            </div>
+          </div>
+          <div class="calc-item">
+            <label class="calc-label">
+              <input type="checkbox" class="calc-check" data-min="20000" data-max="100000">
+              <span>Hackathons</span>
+            </label>
+            <div class="calc-slider-wrap">
+              <input type="range" class="calc-slider" min="0" max="100" value="0" data-min="20000" data-max="100000">
+              <span class="calc-value">₹0</span>
+            </div>
+          </div>
+          <div class="calc-item">
+            <label class="calc-label">
+              <input type="checkbox" class="calc-check" data-min="5000" data-max="50000">
+              <span>Bug Bounty (CN+OS)</span>
+            </label>
+            <div class="calc-slider-wrap">
+              <input type="range" class="calc-slider" min="0" max="100" value="0" data-min="5000" data-max="50000">
+              <span class="calc-value">₹0</span>
+            </div>
+          </div>
+          <div class="calc-item">
+            <label class="calc-label">
+              <input type="checkbox" class="calc-check" data-min="10000" data-max="50000">
+              <span>Freelancing Python/SQL</span>
+            </label>
+            <div class="calc-slider-wrap">
+              <input type="range" class="calc-slider" min="0" max="100" value="0" data-min="10000" data-max="50000">
+              <span class="calc-value">₹0</span>
+            </div>
+          </div>
+          <div class="calc-item">
+            <label class="calc-label">
+              <input type="checkbox" class="calc-check" data-min="10000" data-max="40000">
+              <span>Data Analysis Gigs</span>
+            </label>
+            <div class="calc-slider-wrap">
+              <input type="range" class="calc-slider" min="0" max="100" value="0" data-min="10000" data-max="40000">
+              <span class="calc-value">₹0</span>
+            </div>
+          </div>
+          <div class="calc-item">
+            <label class="calc-label">
+              <input type="checkbox" class="calc-check" data-min="5000" data-max="25000">
+              <span>Remote Internships</span>
+            </label>
+            <div class="calc-slider-wrap">
+              <input type="range" class="calc-slider" min="0" max="100" value="0" data-min="5000" data-max="25000">
+              <span class="calc-value">₹0</span>
+            </div>
+          </div>
+        </div>
+        <div class="calc-total">
+          <div class="calc-total-label">Estimated Monthly Income</div>
+          <div class="calc-total-value" id="calcTotal">₹30,000</div>
+          <div class="calc-total-range" id="calcRange">Range: ₹10K - ₹50K</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Checklist -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Immediate Setup Checklist</h2>
+        <p class="section-desc">Complete these in Week 1-2 to activate your earning loops</p>
+      </div>
+      <div class="checklist" id="checklist">
+        <div class="checklist-item">
+          <label class="check-label">
+            <input type="checkbox" class="check-input" data-id="1">
+            <span class="check-custom"></span>
+            <span class="check-text">CodeChef + LeetCode accounts (solve 2-3 problems/day)</span>
+          </label>
+        </div>
+        <div class="checklist-item">
+          <label class="check-label">
+            <input type="checkbox" class="check-input" data-id="2">
+            <span class="check-custom"></span>
+            <span class="check-text">HackerOne/Bugcrowd onboarding</span>
+          </label>
+        </div>
+        <div class="checklist-item">
+          <label class="check-label">
+            <input type="checkbox" class="check-input" data-id="3">
+            <span class="check-custom"></span>
+            <span class="check-text">3-5 hackathon teams on Devfolio/Devpost</span>
+          </label>
+        </div>
+        <div class="checklist-item">
+          <label class="check-label">
+            <input type="checkbox" class="check-input" data-id="4">
+            <span class="check-custom"></span>
+            <span class="check-text">Kaggle account (join Titanic competition)</span>
+          </label>
+        </div>
+        <div class="checklist-item">
+          <label class="check-label">
+            <input type="checkbox" class="check-input" data-id="5">
+            <span class="check-custom"></span>
+            <span class="check-text">Fiverr account (3-5 gigs: web dev, Python, data analysis)</span>
+          </label>
+        </div>
+        <div class="checklist-item">
+          <label class="check-label">
+            <input type="checkbox" class="check-input" data-id="6">
+            <span class="check-custom"></span>
+            <span class="check-text">Internshala + LinkedIn (remote tech internships)</span>
+          </label>
+        </div>
+        <div class="checklist-item">
+          <label class="check-label">
+            <input type="checkbox" class="check-input" data-id="7">
+            <span class="check-custom"></span>
+            <span class="check-text">Upwork profile (activate after Fiverr portfolio grows)</span>
+          </label>
+        </div>
+        <div class="checklist-item">
+          <label class="check-label">
+            <input type="checkbox" class="check-input" data-id="8">
+            <span class="check-custom"></span>
+            <span class="check-text">Forage (free virtual internships: Google, Microsoft, JPMorgan)</span>
+          </label>
+        </div>
+      </div>
+      <div class="checklist-progress">
+        <div class="progress-bar">
+          <div class="progress-fill checklist-fill" id="checklistProgress" style="width: 0%"></div>
+        </div>
+        <span id="checklistLabel">0/8 completed</span>
+      </div>
+    </section>
+
+    <!-- Platforms -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Freelancing Platforms</h2>
+        <p class="section-desc">Start with Fiverr, graduate to Upwork, use Contra for zero commission</p>
+      </div>
+      <div class="platforms-grid">
+        <div class="platform-card">
+          <div class="platform-header">
+            <h3>Fiverr</h3>
+            <span class="platform-commission">20% commission</span>
+          </div>
+          <div class="platform-income">₹20K-3L/mo</div>
+          <p class="platform-desc">Best for quick gigs, starting out, building portfolio. Start with ₹500 gigs, scale to ₹5K-20K per project.</p>
+          <div class="platform-timing">Start: Immediately</div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-header">
+            <h3>Upwork</h3>
+            <span class="platform-commission">10% commission</span>
+          </div>
+          <div class="platform-income">₹50K-5L+/mo</div>
+          <p class="platform-desc">Best for long-term projects, higher-paying clients. Steeper learning curve, but better long-term.</p>
+          <div class="platform-timing">Start: Month 2+</div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-header">
+            <h3>Contra</h3>
+            <span class="platform-commission">0% commission</span>
+          </div>
+          <div class="platform-income">₹30K-3L/mo</div>
+          <p class="platform-desc">Portfolio-based, zero commission. Great for building a personal brand without losing fees.</p>
+          <div class="platform-timing">Start: Anytime</div>
+        </div>
+        <div class="platform-card">
+          <div class="platform-header">
+            <h3>Truelancer</h3>
+            <span class="platform-commission">8-10% commission</span>
+          </div>
+          <div class="platform-income">₹10K-1L/mo</div>
+          <p class="platform-desc">Indian platform, UPI/bank transfer payments. No currency conversion hassles.</p>
+          <div class="platform-timing">Start: Immediately</div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Career Targets -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Target Roles & Career Priorities</h2>
+        <p class="section-desc">The 4 target roles and highest-demand skills for 2026</p>
+      </div>
+      <div class="careers-grid">
+        <div class="career-card">
+          <div class="career-header">
+            <span class="career-icon">🤖</span>
+            <h3>AI/ML Engineer</h3>
+          </div>
+          <div class="career-salary">₹8-30 LPA+</div>
+          <div class="career-growth">+143% YoY growth</div>
+          <p class="career-desc">LLM/RAG is #1 money skill (287% YoY). Path: Internship → AI Eng → Senior → Lead</p>
+          <div class="career-skills">
+            <span class="skill-tag">DA (core)</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">DSA</span>
+          </div>
+        </div>
+        <div class="career-card">
+          <div class="career-header">
+            <span class="career-icon">🚀</span>
+            <h3>Forward Deployed Engineer</h3>
+          </div>
+          <div class="career-salary">₹18-90L+</div>
+          <div class="career-growth">+729% YoY growth</div>
+          <p class="career-desc">Hub: Bengaluru (45%). ~250-270 India roles. Path: Data Engineer → Backend → FDE pivot</p>
+          <div class="career-skills">
+            <span class="skill-tag">DSA</span>
+            <span class="skill-tag">Python</span>
+            <span class="skill-tag">OS</span>
+            <span class="skill-tag">AI/ML basics</span>
+          </div>
+        </div>
+        <div class="career-card">
+          <div class="career-header">
+            <span class="career-icon">💻</span>
+            <h3>Full Stack Developer</h3>
+          </div>
+          <div class="career-salary">₹5-10 LPA</div>
+          <div class="career-growth">+20% YoY growth</div>
+          <p class="career-desc">Highest job volume, easiest entry. After clearing GATE, leverage DSA for interviews.</p>
+          <div class="career-skills">
+            <span class="skill-tag">DSA</span>
+            <span class="skill-tag">DBMS</span>
+            <span class="skill-tag">OS</span>
+          </div>
+        </div>
+        <div class="career-card">
+          <div class="career-header">
+            <span class="career-icon">🔒</span>
+            <h3>SOC Analyst (Cybersecurity)</h3>
+          </div>
+          <div class="career-salary">₹4.5-35 LPA</div>
+          <div class="career-growth">+40% YoY growth</div>
+          <p class="career-desc">India needs 1M+ (has only 80K). Path: L1 SOC → L2 → Threat Intel → Manager</p>
+          <div class="career-skills">
+            <span class="skill-tag">OS</span>
+            <span class="skill-tag">CN</span>
+            <span class="skill-tag">Linux</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- Earning Rules -->
+    <section class="section">
+      <div class="section-header">
+        <h2>Earning Rules</h2>
+        <p class="section-desc">The non-negotiable principles that keep the LIE Loop running</p>
+      </div>
+      <div class="rules-grid">
+        <div class="rule-card">
+          <span class="rule-number">1</span>
+          <p>NEVER skip GATE study for earning — non-negotiable</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-number">2</span>
+          <p>Time cap: Max 15-20 hrs/wk; drop lowest-Rs activity if exceeded</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-number">3</span>
+          <p>GATE-first filter: Every earning activity must touch at least ONE GATE subject</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-number">4</span>
+          <p>LeetCode/Codeforces = GATE prep AND earning — contests have cash prizes</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-number">5</span>
+          <p>Hackathon theme must use DSA, algorithms, or system design</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-number">6</span>
+          <p>Bug bounty = networking + OS — exercises OS, CN, security concepts</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-number">7</span>
+          <p>Freelancing = Python/SQL mastery — real projects speed up GATE practicals</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-number">8</span>
+          <p>Month 5 taper: Reduce to minimum (contest prizes only) before GATE</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-number">9</span>
+          <p>Remote work first: Save commute time for GATE study</p>
+        </div>
+        <div class="rule-card">
+          <span class="rule-number">10</span>
+          <p>Portfolio building: Every freelance project = post-GATE job portfolio piece</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- PortSwigger -->
+    <section class="section">
+      <div class="section-header">
+        <h2>PortSwigger Web Security Academy</h2>
+        <p class="section-desc">Bug bounty prerequisite — free 60+ hands-on labs covering XSS, SQLi, CSRF, auth bypass</p>
+      </div>
+      <div class="portswigger-card">
+        <div class="pws-info">
+          <p>Start Month 2 (Oct), 1hr/day — 2-3 labs/week = ready by Month 4</p>
+          <div class="pws-labs">
+            <span>Injection (SQL, NoSQL, OS, LDAP)</span>
+            <span>XSS (Reflected, Stored, DOM-based)</span>
+            <span>CSRF, SSRF, File Upload, Access Control</span>
+            <span>Authentication, Session Management</span>
+            <span>Business Logic, Information Disclosure</span>
+          </div>
+        </div>
+        <div class="pws-progress">
+          <div class="progress-bar">
+            <div class="progress-fill pws-fill" id="pwsProgress" style="width: 0%"></div>
+          </div>
+          <span id="pwsLabel">0/60 labs</span>
+        </div>
+        <a href="https://portswigger.net/web-security" target="_blank" class="pws-link">Start Labs →</a>
+      </div>
+    </section>
+
+    <!-- Never Forget -->
+    <section class="section">
+      <div class="section-header">
+        <h2>The "Never Forget" Guarantee</h2>
+        <p class="section-desc">Every LIE Loop produces a tangible artifact — reinforce GATE, build portfolio, generate income</p>
+      </div>
+      <div class="artifacts-grid">
+        <div class="artifact-card">
+          <span class="artifact-icon">📁</span>
+          <h3>PDSA</h3>
+          <p>GitHub repo with 50+ LeetCode solutions + 4 projects</p>
+        </div>
+        <div class="artifact-card">
+          <span class="artifact-icon">📊</span>
+          <h3>DBMS</h3>
+          <p>SQL portfolio + data analysis project</p>
+        </div>
+        <div class="artifact-card">
+          <span class="artifact-icon">🐧</span>
+          <h3>OS</h3>
+          <p>Linux server setup + shell scripts repo</p>
+        </div>
+        <div class="artifact-card">
+          <span class="artifact-icon">🔒</span>
+          <h3>CN</h3>
+          <p>Wireshark captures + security lab report</p>
+        </div>
+        <div class="artifact-card">
+          <span class="artifact-icon">⚡</span>
+          <h3>COA+DL</h3>
+          <p>Verilog projects on GitHub + FPGA demos</p>
+        </div>
+        <div class="artifact-card">
+          <span class="artifact-icon">💬</span>
+          <h3>TOC</h3>
+          <p>Regex engine + chatbot + prompt engineering portfolio</p>
+        </div>
+        <div class="artifact-card">
+          <span class="artifact-icon">🔧</span>
+          <h3>Compiler</h3>
+          <p>Lexer/parser project + API</p>
+        </div>
+        <div class="artifact-card">
+          <span class="artifact-icon">📈</span>
+          <h3>Math</h3>
+          <p>ML models + data visualization dashboard</p>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    <p>Last updated: September 21, 2026 · Next review: Monthly (first Sunday)</p>
+  </footer>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>
