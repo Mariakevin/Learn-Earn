@@ -140,6 +140,9 @@ a {
   left: 8px;
   top: -48px;
   z-index: 200;
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
   padding: 8px 12px;
   background: var(--gold);
   color: var(--gold-ink);
@@ -719,7 +722,7 @@ a {
 .section-desc {
   color: var(--text-2);
   font-size: 0.9375rem;
-  max-width: 52em;
+  max-width: 70ch;
 }
 
 /* ===== LIE Loop ===== */
@@ -1266,6 +1269,7 @@ a {
 .timeline-detail p {
   color: var(--text-2);
   margin-bottom: 12px;
+  max-width: 70ch;
 }
 
 .detail-targets {
@@ -1569,7 +1573,7 @@ a {
   border-radius: var(--radius-md);
 }
 
-.week-box h4 {
+.week-box h3 {
   font-family: "IBM Plex Mono", ui-monospace, monospace;
   font-size: 0.9375rem;
   font-weight: 600;
@@ -1588,7 +1592,7 @@ a {
   background: var(--gold-soft);
 }
 
-.week-box-target h4 {
+.week-box-target h3 {
   color: var(--gold);
 }
 
@@ -1952,6 +1956,7 @@ a {
 .pws-info p {
   color: var(--text-2);
   margin-bottom: 12px;
+  max-width: 70ch;
 }
 
 .pws-note {

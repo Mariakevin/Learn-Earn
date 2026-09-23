@@ -1,0 +1,248 @@
+{
+  "plan_id": "20260923-ui-ux-best-practices",
+  "objective": "Research current top frontend UI/UX best practices (baseline-aware against what this dashboard already ships), then implement only NEW fitting DOs in the vanilla zero-build dashboard; verified no-op is an allowed outcome per finding.",
+  "complexity": "MEDIUM",
+  "tech_stack": {
+    "approach": "pure vanilla zero-build single-page dashboard",
+    "files": ["index.html", "styles.css", "app.js"],
+    "build_step": false,
+    "keep_vanilla": true,
+    "forbidden": [
+      "React",
+      "Tailwind",
+      "GSAP",
+      "anime.js",
+      "htmx",
+      "frameworks",
+      "libraries",
+      "bundlers"
+    ],
+    "npm_used_only_for": ["prettier", "eslint", "tsc"],
+    "supporting": [
+      "earning_plan.md",
+      "favicon.svg",
+      "manifest.webmanifest",
+      "package.json",
+      "package-lock.json",
+      "eslint.config.js",
+      ".prettierignore",
+      ".gitignore",
+      ".github/"
+    ]
+  },
+  "constraints": [
+    "KEEP_VANILLA: no frameworks/libraries/bundlers (no React/Tailwind/GSAP/anime.js/htmx); npm only for prettier/eslint/tsc",
+    "18 getElementById hooks + STATE_KEY \"gate-earn-dashboard-v1\" (app.js:8) must remain intact (grep-verified)",
+    "app.js effectively frozen: prefer CSS/HTML-only fixes; JS-touching findings need explicit justification (high-risk, likely SKIP)",
+    "prefers-reduced-motion kill-switch (~styles.css:2247+) must cover ALL motion",
+    "if any motion touched: single ease token cubic-bezier(0.2,0.8,0.2,1) (styles.css:50); one orchestrated load moment (dial-draw) only; budget <=800ms",
+    "lift policy: ONLY .top3-card (~styles.css:866) and .pws-link (~styles.css:2024) may translateY(-1px); nothing else gains a lift",
+    "no will-change sprinkling, no animation-timeline, no scattered hover-lift",
+    "a11y first-class: 44px min targets, focus-visible gold ring (styles.css:132-135), keyboard operability, WCAG AA contrast",
+    "ASCII-only edits except existing Rs (rupee) symbol",
+    "out of scope: date changes, color-scheme logic changes, content/copy rewrites, visual redesign of the brand (gold/dark Gate Earn identity stays)",
+    "verification allowed: npx prettier --check index.html styles.css app.js; npx tsc --allowJs --checkJs false --noEmit app.js; npx eslint app.js; git status/diff/log/add/commit",
+    "verification DENIED: node --check, stylelint, python, &&-chained commands",
+    "git push = ask-permission (never autonomous)",
+    "stage explicit file paths only; never .engram/ or node_modules/"
+  ],
+  "conventions": {
+    "plan_artifacts_dir": "docs/plan/{plan_id}/",
+    "required_artifacts": [
+      "plan.yaml",
+      "context_envelope.json",
+      "findings.md (after research)"
+    ],
+    "verification_suite": [
+      "npx prettier --check index.html styles.css app.js",
+      "npx tsc --allowJs --checkJs false --noEmit app.js",
+      "npx eslint app.js"
+    ],
+    "do_skip_contract": "Only NEW findings carry actionable DO or SKIP verdicts with fit/skip rationale; SKIP must name the violated constraint or reason",
+    "labeling": "exactly DONE-BASELINE | SKIP-BASELINE | NEW (then DO|SKIP only for NEW)",
+    "finding_ids": "this plan uses U1, U2, ... ; prior motion findings keep F1-F18 / N1-N5 IDs and are never renumbered",
+    "evidence_rule": "every claim needs a file:line citation; already-ships claims cite this working tree; source claims cite absolute URLs",
+    "commit_message_pattern": "20260923-ui-ux-best-practices_wave-N",
+    "stage_policy": "explicit file paths only; never .engram/ or node_modules/",
+    "push_policy": "ask-permission only; never autonomous",
+    "ascii": "ASCII-only edits except existing Rs (rupee) symbol",
+    "skills": ["frontend-philosophy", "code-philosophy"],
+    "user_pattern": "research wave -> implement wave -> review gate -> commit (push only via ask)"
+  },
+  "prior_decisions": [
+    {
+      "id": "prior-motion-plan-1",
+      "decision": "All 8 DOs from 20260922-animations-effects-transitions shipped in commit 4874c9c; gate approve score 100; 10 SKIPs stand; new plan must not duplicate them",
+      "refs": [
+        "docs/plan/20260922-animations-effects-transitions/findings.md",
+        "4874c9c"
+      ]
+    },
+    {
+      "id": "prior-motion-plan-2",
+      "decision": "20260922-animations-effects-best-practices shipped 2 NEW DOs (N1 RM kill-switch delay overrides styles.css:2256,2259; N2 .theme-toggle:active color-only styles.css:285-287) in commit 91cfca2; gate pass score 100 confidence 0.95; totals 8 DONE-BASELINE / 10 SKIP-BASELINE / 2 NEW DO / 3 NEW SKIP",
+      "refs": [
+        "docs/plan/20260922-animations-effects-best-practices/findings.md",
+        "91cfca2"
+      ]
+    },
+    {
+      "id": "do-skip-contract",
+      "decision": "DO/SKIP contract with fit rationale worked well previously; reuse with baseline labels DONE-BASELINE | SKIP-BASELINE | NEW",
+      "refs": ["docs/plan/20260922-animations-effects-best-practices/plan.yaml"]
+    },
+    {
+      "id": "baseline-first",
+      "decision": "prior findings are baseline: prior shipped DOs marked DONE-BASELINE (cite file:line); prior SKIPs marked SKIP-BASELINE (reuse original skip rationale); only NEW UI/UX findings are actionable DO/SKIP; do not relitigate without new evidence"
+    },
+    {
+      "id": "keep-vanilla",
+      "decision": "pure vanilla, 3 files, zero build; npm only for prettier/eslint/tsc"
+    },
+    {
+      "id": "app-js-frozen",
+      "decision": "18 getElementById hooks + STATE_KEY gate-earn-dashboard-v1 (app.js:8) effectively frozen; prefer CSS/HTML-only; JS-touching findings high-risk (likely SKIP)"
+    },
+    {
+      "id": "lift-policy",
+      "decision": "scattered hover lifts killed; only .top3-card (~styles.css:866) and .pws-link (~styles.css:2024) retain translateY(-1px)"
+    },
+    {
+      "id": "one-moment-ease-budget",
+      "decision": "dial-draw is the single orchestrated load moment; budget <=800ms; single ease token cubic-bezier(0.2,0.8,0.2,1) (styles.css:50)"
+    },
+    {
+      "id": "no-op-implement-allowed",
+      "decision": "if research yields zero new fitting DOs, implement task legitimately passes as a verified no-op"
+    },
+    {
+      "id": "brand-frozen",
+      "decision": "gold/dark Gate Earn identity, dates, color-scheme logic, and copy are hard out of scope"
+    }
+  ],
+  "architecture_snapshot": {
+    "type": "single-page dashboard",
+    "entry": "index.html",
+    "styles": "styles.css",
+    "script": "app.js",
+    "state_key": "gate-earn-dashboard-v1",
+    "state_key_ref": "app.js:8",
+    "element_id_hooks": 18,
+    "hooks": [
+      "themeToggle",
+      "themeIcon",
+      "leetcodeCount",
+      "incomeCount",
+      "activeLoops",
+      "weekCount",
+      "leetcodeProgress",
+      "incomeProgress",
+      "loopProgress",
+      "weekProgress",
+      "timelineWeeks",
+      "timelineDetailContent",
+      "calcTotal",
+      "calcRange",
+      "checklistProgress",
+      "checklistLabel",
+      "pwsProgress",
+      "pwsLabel"
+    ],
+    "key_anchors": {
+      "ease_token": "styles.css:50",
+      "focus_ring": "styles.css:132-135",
+      "theme_toggle_hover": "styles.css:280",
+      "theme_toggle_active": "styles.css:285-287",
+      "lift_top3_card": "styles.css:866",
+      "lift_pws_link": "styles.css:2024",
+      "reduced_motion_kill_switch": "styles.css:2247+",
+      "js_reduced_motion_mirror": "app.js:391"
+    },
+    "base_commit": "91cfca2",
+    "branch": "main",
+    "remote": "https://github.com/Mariakevin/Learn-Earn.git"
+  },
+  "research_digest": {
+    "baseline_files": [
+      "docs/plan/20260922-animations-effects-transitions/findings.md",
+      "docs/plan/20260922-animations-effects-best-practices/findings.md"
+    ],
+    "baseline_counts": {
+      "plan1": { "DO": 8, "SKIP": 10, "total": 18 },
+      "plan2": {
+        "DONE-BASELINE": 8,
+        "SKIP-BASELINE": 10,
+        "NEW-DO": 2,
+        "NEW-SKIP": 3,
+        "total": 23
+      }
+    },
+    "shipped_motion_do_baseline": [
+      "F1 composite-only entrances (rise-in + dial-draw)",
+      "F3 single ease token cubic-bezier(0.2,0.8,0.2,1) (styles.css:50)",
+      "F6 ::view-transition-group(week-detail) 180ms",
+      "F10 timeline :focus-visible gold-soft background parity",
+      "F11 moz range thumb hover/transition parity",
+      "F12 forced-colors timeline non-color cue",
+      "F15 :active press on timeline weeks (no lift)",
+      "F17 load-sequence budget <=800ms gate",
+      "N1 RM kill-switch delay overrides (styles.css:2256,2259)",
+      "N2 .theme-toggle:active color-only (styles.css:285-287)"
+    ],
+    "prior_skips_do_not_relitigate": [
+      "10 motion SKIPs from F1-F18 set (original rationales reused)",
+      "N3 no scale/press-scale flourishes",
+      "N4 no element-scoped/class VT adoption",
+      "N5 no hero glow pulse / preloader"
+    ],
+    "scope_uiux": [
+      "usability heuristics (Nielsen)",
+      "visual hierarchy and layout density",
+      "affordance and discoverability",
+      "touch targets (44px minimum)",
+      "contrast and readability (WCAG AA)",
+      "focus order and focus management",
+      "forms and controls UX",
+      "responsive behavior / mobile-first",
+      "content readability (structure only - not copy rewrites)"
+    ],
+    "out_of_scope": [
+      "date changes",
+      "color-scheme logic changes",
+      "content/copy rewrites",
+      "visual redesign of the brand (gold/dark Gate Earn identity stays)"
+    ],
+    "output_contract": "findings.md: each item has title, sources (absolute URLs), baseline status (DONE-BASELINE | SKIP-BASELINE | NEW), DO|SKIP (NEW only), fit/skip rationale, re-validated file:line target, reduced-motion/collision note, risk",
+    "findings": []
+  },
+  "reuse_notes": {
+    "anchors_to_revalidate": [
+      "styles.css:50 ease token",
+      "styles.css:132-135 focus-visible gold ring",
+      "styles.css:866 .top3-card lift",
+      "styles.css:2024 .pws-link lift",
+      "styles.css:2247+ prefers-reduced-motion kill-switch",
+      "styles.css:280/285 theme-toggle hover/active",
+      "app.js:8 STATE_KEY"
+    ],
+    "verification_suite": [
+      "npx prettier --check index.html styles.css app.js",
+      "npx tsc --allowJs --checkJs false --noEmit app.js",
+      "npx eslint app.js"
+    ],
+    "tdd_red_first": "grep proving absence before each edit; green verification after",
+    "gate_npx_policy": "sandbox may deny npx - prettier/tsc may cite implementer evidence; greps re-checked independently; eslint re-run if possible"
+  },
+  "plan_summary": "3 waves, 3 tasks, 2 contracts: uiux-research-2 (wave 1, gem-researcher, read-only, baseline-aware UI/UX research -> findings.md with U-IDs) -> uiux-implement-2 (wave 2, gem-implementer, implement only NEW DOs or verified no-op, all hard constraints binding) -> gate-ship-2 (wave 3, gem-reviewer, full-diff review vs acceptance, re-run verification, evidence_rule file:line, commit 20260923-ui-ux-best-practices_wave-3 with explicit paths, push = ask only).",
+  "context_snapshot_fields": {
+    "uiux-research-2": ["tech_stack", "constraints"],
+    "uiux-implement-2": [
+      "tech_stack",
+      "constraints",
+      "reuse_notes",
+      "research_digest"
+    ],
+    "gate-ship-2": ["constraints", "plan_summary"]
+  },
+  "config_snapshot": {}
+}
