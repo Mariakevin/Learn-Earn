@@ -282,6 +282,10 @@ a {
   color: var(--gold);
 }
 
+.theme-toggle:active {
+  background: var(--gold-soft);
+}
+
 .theme-icon {
   display: inline-flex;
   width: 18px;
@@ -2249,8 +2253,10 @@ a {
   *::before,
   *::after {
     animation-duration: 0.01ms !important;
+    animation-delay: 0s !important;
     animation-iteration-count: 1 !important;
     transition-duration: 0.01ms !important;
+    transition-delay: 0s !important;
   }
 
   ::view-transition-group(*),

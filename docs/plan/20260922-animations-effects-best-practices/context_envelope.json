@@ -1,0 +1,180 @@
+{
+  "plan_id": "20260922-animations-effects-best-practices",
+  "objective": "Research current frontend animations & effects best practices (baseline-aware against prior 20260922-animations-effects-transitions findings), then implement only NEW fitting DOs in the vanilla zero-build dashboard; verified no-op is an allowed outcome.",
+  "complexity": "MEDIUM",
+  "tech_stack": {
+    "approach": "pure vanilla zero-build single-page dashboard",
+    "files": ["index.html", "styles.css", "app.js"],
+    "build_step": false,
+    "keep_vanilla": true,
+    "forbidden": [
+      "GSAP",
+      "React",
+      "Tailwind",
+      "bundlers",
+      "animation libraries"
+    ],
+    "npm_used_only_for": ["prettier", "eslint", "tsc"],
+    "supporting": [
+      "earning_plan.md",
+      "favicon.svg",
+      "manifest.webmanifest",
+      "package.json",
+      "package-lock.json",
+      "eslint.config.js",
+      ".prettierignore",
+      ".gitignore",
+      ".github/"
+    ]
+  },
+  "constraints": [
+    "KEEP_VANILLA: no animation libraries, no bundlers, no GSAP/React/Tailwind",
+    "18 getElementById hooks + STATE_KEY \"gate-earn-dashboard-v1\" in app.js must remain intact (grep-verified)",
+    "prefers-reduced-motion kill-switch (~styles.css:2243+) must cover ALL new motion",
+    "one orchestrated motion moment only (dial-draw load sequence); load sequence budget <=800ms",
+    "single ease token cubic-bezier(0.2,0.8,0.2,1); entrances composite-only (transform/opacity)",
+    "lift policy: ONLY .top3-card and .pws-link may translateY(-1px); nothing else gains a lift",
+    "no will-change sprinkling, no animation-timeline, no scattered hover-lift",
+    "a11y: 44px targets, focus-visible gold ring, keyboard-operable controls, AA contrast",
+    "ASCII-only edits except existing Rs symbol",
+    "out of scope: date changes, color-scheme changes, content/copy changes",
+    "verification allowed: npx prettier --check index.html styles.css app.js; npx tsc --allowJs --checkJs false --noEmit app.js; npx eslint app.js; git status/diff/log/add/commit",
+    "verification DENIED: node --check, stylelint, python, &&-chained commands",
+    "git push = ask-permission (never autonomous)"
+  ],
+  "conventions": {
+    "plan_artifacts_dir": "docs/plan/{plan_id}/",
+    "required_artifacts": [
+      "plan.yaml",
+      "context_envelope.json",
+      "findings.md (after research)"
+    ],
+    "verification_suite": [
+      "npx prettier --check index.html styles.css app.js",
+      "npx tsc --allowJs --checkJs false --noEmit app.js",
+      "npx eslint app.js"
+    ],
+    "commit_message_pattern": "20260922-animations-effects-best-practices_wave-N",
+    "stage_policy": "explicit file paths only; never .engram/ or node_modules/",
+    "skills": ["frontend-philosophy", "code-philosophy"],
+    "motion_rule": "one orchestrated moment (frontend-philosophy purposeful motion pillar)",
+    "lifts_policy": "only .top3-card and .pws-link keep translateY(-1px); do not reintroduce scattered hover-lift anti-pattern",
+    "user_pattern": "research wave -> implement wave -> review gate -> commit (push only via ask)"
+  },
+  "prior_decisions": [
+    {
+      "id": "prior-motion-plan",
+      "decision": "All 8 DOs from prior findings.md shipped in commit 4874c9c; gate approved score 100; new plan must not duplicate them",
+      "refs": [
+        "docs/plan/20260922-animations-effects-transitions/findings.md",
+        "4874c9c"
+      ]
+    },
+    {
+      "id": "do-skip-contract",
+      "decision": "DO/SKIP contract with fit rationale worked well previously; reuse for new research with baseline labels DONE-BASELINE (prior 8 DOs) and SKIP-BASELINE (prior 10 SKIPs)",
+      "refs": ["docs/plan/20260922-animations-effects-transitions/plan.yaml"]
+    },
+    {
+      "id": "keep-vanilla",
+      "decision": "Approach A pure vanilla, 3 files, zero build; npm only for prettier/eslint/tsc"
+    },
+    {
+      "id": "lift-policy",
+      "decision": "scattered hover lifts killed; only .top3-card and .pws-link retain translateY(-1px)"
+    },
+    {
+      "id": "one-moment-budget",
+      "decision": "dial-draw is the single orchestrated load moment; budget <=800ms; single ease token cubic-bezier(0.2,0.8,0.2,1)"
+    },
+    {
+      "id": "no-op-implement-allowed",
+      "decision": "if research yields zero new fitting DOs, implement task legitimately passes as a verified no-op"
+    },
+    {
+      "id": "baseline-first",
+      "decision": "prior findings.md is baseline: prior 8 shipped DOs marked DONE-BASELINE; prior 10 SKIPs marked SKIP-BASELINE (reuse original skip rationale); only NEW findings are actionable DO/SKIP"
+    }
+  ],
+  "architecture_snapshot": {
+    "type": "single-page dashboard",
+    "entry": "index.html",
+    "styles": "styles.css",
+    "script": "app.js",
+    "state_key": "gate-earn-dashboard-v1",
+    "element_id_hooks": 18,
+    "hooks": [
+      "themeToggle",
+      "themeIcon",
+      "leetcodeCount",
+      "incomeCount",
+      "activeLoops",
+      "weekCount",
+      "leetcodeProgress",
+      "incomeProgress",
+      "loopProgress",
+      "weekProgress",
+      "timelineWeeks",
+      "timelineDetailContent",
+      "calcTotal",
+      "calcRange",
+      "checklistProgress",
+      "checklistLabel",
+      "pwsProgress",
+      "pwsLabel"
+    ],
+    "reduced_motion_kill_switch_ref": "~styles.css:2243+",
+    "branch": "main",
+    "base_commit": "4874c9c",
+    "remote": "https://github.com/Mariakevin/Learn-Earn.git"
+  },
+  "research_digest": {
+    "baseline_file": "docs/plan/20260922-animations-effects-transitions/findings.md",
+    "baseline_counts": { "DO": 8, "SKIP": 10, "total": 18 },
+    "shipped_do_baseline": [
+      "F1 composite-only entrances",
+      "F3 single ease token cubic-bezier(0.2,0.8,0.2,1)",
+      "F6 ::view-transition-group(week-detail) 180ms",
+      "F10 timeline :focus-visible background parity",
+      "F11 moz range thumb hover/transition parity",
+      "F12 forced-colors timeline non-color cue",
+      "F15 :active press on timeline (no lift)",
+      "F17 load-sequence budget <=800ms gate"
+    ],
+    "prior_skips_do_not_relitigate": [
+      "libraries",
+      "scroll-scrub / animation-timeline",
+      "scattered lifts",
+      "data-table entrances",
+      "will-change sprinkling",
+      "KPI count-up",
+      "extra view-transition-names",
+      "checklist bounce/pop",
+      "Save-Data motion strip",
+      "skipTransition wiring"
+    ],
+    "already_implemented_do_not_replan": [
+      "dial-draw delay 0.1s",
+      "timeline hover/focus-visible/active",
+      "forced-colors timeline block",
+      "moz range thumb parity",
+      "::view-transition-group(week-detail) 180ms"
+    ],
+    "scope_effects": [
+      "hover/active/focus feedback",
+      "entrance/micro-interactions",
+      "transitions",
+      "view-transition API",
+      "load-sequence motion",
+      "reduced-motion & forced-colors handling"
+    ],
+    "out_of_scope": [
+      "date changes",
+      "color-scheme changes",
+      "content/copy changes"
+    ],
+    "output_contract": "findings.md: each item has title, sources, baseline status (DONE-BASELINE for prior 8 shipped DOs | SKIP-BASELINE for prior 10 SKIPs reusing original skip rationale | NEW), DO|SKIP (NEW only), fit rationale, file:line target, reduced-motion requirement, risk",
+    "findings": []
+  },
+  "config_snapshot": {}
+}
