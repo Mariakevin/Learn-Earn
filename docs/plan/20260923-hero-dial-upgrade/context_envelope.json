@@ -1,0 +1,256 @@
+{
+  "plan_id": "20260923-hero-dial-upgrade",
+  "objective": "Redesign the dashboard hero top portion (eyebrow, h1 hierarchy, subtitle/meta quieting, Goal chip, and loop-dial thesis) so the dial reads as the single numeric hero moment while preserving all vanilla/motion/a11y hard constraints.",
+  "complexity": "MEDIUM",
+  "tech_stack": {
+    "approach": "pure vanilla zero-build single-page dashboard",
+    "files": ["index.html", "styles.css", "app.js"],
+    "build_step": false,
+    "keep_vanilla": true,
+    "forbidden": [
+      "React",
+      "Tailwind",
+      "GSAP",
+      "anime.js",
+      "htmx",
+      "frameworks",
+      "libraries",
+      "CDNs",
+      "bundlers"
+    ],
+    "npm_used_only_for": ["prettier", "eslint", "tsc"],
+    "supporting": [
+      "earning_plan.md",
+      "favicon.svg",
+      "manifest.webmanifest",
+      "package.json",
+      "package-lock.json",
+      "eslint.config.js",
+      ".prettierignore",
+      ".gitignore",
+      ".github/"
+    ]
+  },
+  "constraints": [
+    "KEEP_VANILLA: no frameworks/libraries/CDNs/bundlers; npm only prettier/eslint/tsc; existing SVG/CSS only",
+    "app.js FROZEN - never edit; keep all 18 getElementById hooks and STATE_KEY \"gate-earn-dashboard-v1\" (app.js:8) intact",
+    "scope files only for source edits: index.html and/or styles.css; reports under docs/plan/20260923-hero-dial-upgrade/",
+    "A11y: 44px targets, focus-visible behavior preserved, WCAG AA contrast both themes, keyboard operable, skip-link preserved",
+    "single ease token only: cubic-bezier(0.2, 0.8, 0.2, 1) (styles.css:51); no new ad-hoc easing curves",
+    "lift policy: translateY(-1px) exactly 2 - .top3-card (styles.css:779) and .pws-link (styles.css:1914); hero gains no lift",
+    "RM kill-switch (styles.css:2102) must cover ALL motion; dial-draw is THE single orchestrated load moment; load budget <=800ms",
+    "no will-change sprinkling, no animation-timeline, no scattered hover-lift or entrance animations",
+    "ASCII-only edits except existing Rs (rupee) symbol",
+    "copy/content/dates frozen; color-scheme (dark/light) logic frozen; brand LIE // GATE 2027 gold-on-dark aesthetic refined not replaced; palette micro-refinement only if WCAG AA maintained in both themes",
+    "gold accent ONLY on Earn in the h1 treatment",
+    "verification allowed: npx prettier --check index.html styles.css app.js; npx tsc --allowJs --checkJs false --noEmit app.js; npx eslint app.js; git status/diff/log; grep canaries",
+    "verification DENIED: node --check, stylelint, python3, &&-chained commands",
+    "git push = ask-permission (never autonomous); currently ahead 2 unpushed commits (d6dbf89, f694185) - do NOT push in this plan",
+    "stage explicit file paths only (index.html, styles.css, docs/plan/20260923-hero-dial-upgrade/); never .engram/ or node_modules/"
+  ],
+  "conventions": {
+    "plan_artifacts_dir": "docs/plan/20260923-hero-dial-upgrade/",
+    "required_artifacts": [
+      "plan.yaml",
+      "context_envelope.json",
+      "design-spec.md (wave 1 DESIGN-SPEC + wave 2 IMPLEMENT NOTES or sibling implement report)"
+    ],
+    "verification_suite": [
+      "npx prettier --check index.html styles.css app.js",
+      "npx tsc --allowJs --checkJs false --noEmit app.js",
+      "npx eslint app.js"
+    ],
+    "denied_tools": [
+      "node --check",
+      "stylelint",
+      "python3",
+      "&&-chained commands"
+    ],
+    "output_contract_labels": {
+      "DESIGN-SPEC": "design-spec.md: per-element file:line targets, before/after intent, token usage, mobile notes, acceptance greps; four locked pillars covered",
+      "IMPLEMENT-DIFF-REPORT": "design-spec.md IMPLEMENT NOTES or sibling note: files touched, file:line before/after, TDD-red/green evidence, full suite stdout, canary greps",
+      "GATE-REVIEW": "acceptance review with file:line evidence on every claim, design-spec checklist, canary results, stage_paths recommendation, approve or request-changes verdict"
+    },
+    "evidence_rule": "every claim needs a file:line citation in this working tree; prior-plan anchors labeled as baseline and revalidated; reviewer sandbox denies npx - cite implementer suite stdout and re-run greps independently",
+    "tdd_red_first": "grep proving absence before each edit; green verification after",
+    "commit_message_pattern": "20260923-hero-dial-upgrade_wave-3",
+    "commit_owner": "orchestrator: git add/commit after gate-ship approve with explicit paths only; persist plan.yaml task statuses each wave",
+    "stage_policy": "explicit file paths only; never .engram/ or node_modules/",
+    "push_policy": "ask-permission only; never autonomous; do NOT push in this plan",
+    "ascii": "ASCII-only edits except existing Rs (rupee) symbol",
+    "skills": ["frontend-philosophy"],
+    "user_pattern": "locked Option 2 proceed -> design-spec -> implement -> gate -> orchestrator commit (push only via ask)",
+    "agent_routing": "gem-designer/gem-planner free-tier BROKEN -> general for design-spec and plan authoring; gem-implementer OK for implementation; gem-reviewer OK for gates; fallback_agent general on all tasks; no .gem-team.yaml"
+  },
+  "prior_decisions": [
+    {
+      "id": "keep-vanilla",
+      "decision": "pure vanilla, 3 files, zero build; npm only for prettier/eslint/tsc; no frameworks/libraries/CDNs/bundlers",
+      "refs": ["package.json"]
+    },
+    {
+      "id": "app-js-frozen",
+      "decision": "app.js FROZEN - never edit; 18 getElementById hooks + STATE_KEY gate-earn-dashboard-v1 (app.js:8) must remain intact (grep-verified)",
+      "refs": ["app.js:8"]
+    },
+    {
+      "id": "toggle-border-d6dbf89",
+      "decision": "mobile theme-toggle visibility fixed via stronger border so it reads over scrolling cards (shipped, do not regress)",
+      "refs": ["d6dbf89"]
+    },
+    {
+      "id": "footer-gone-f694185",
+      "decision": "bottom footer with date and review info removed (shipped; do not reintroduce)",
+      "refs": ["f694185"]
+    },
+    {
+      "id": "rate-improve-open-optional",
+      "decision": "20260923-ui-ux-rate-improve re-rate-round remains open/optional (rate-1 + improve-1 shipped af85985); hero plan does not depend on closing that loop",
+      "refs": ["docs/plan/20260923-ui-ux-rate-improve/plan.yaml", "af85985"]
+    },
+    {
+      "id": "lift-policy",
+      "decision": "lifts exactly 2: only .top3-card (styles.css:779) and .pws-link (styles.css:1914) retain translateY(-1px); hero gains no lift; prior envelope cited 786/1946 - baseline, revalidated this tree",
+      "refs": ["styles.css:779", "styles.css:1914"]
+    },
+    {
+      "id": "one-moment-ease-budget",
+      "decision": "dial-draw is the single orchestrated load moment; budget <=800ms; single ease cubic-bezier(0.2, 0.8, 0.2, 1) (styles.css:51); prior envelope cited styles.css:50 - baseline, revalidated this tree",
+      "refs": ["styles.css:51"]
+    },
+    {
+      "id": "rm-kill-switch",
+      "decision": "prefers-reduced-motion kill-switch (styles.css:2102) must cover ALL motion; JS mirror at app.js:391; prior envelope cited styles.css:2160 - baseline, revalidated this tree",
+      "refs": ["styles.css:2102", "app.js:391"]
+    },
+    {
+      "id": "hero-option-2-locked",
+      "decision": "Option 2 Hero rework with dial-as-thesis emphasis locked by orchestrator; user pre-approved proceed; design direction pillars: type, dial-thesis, composition, motion",
+      "refs": ["index.html:55-129", "styles.css:221-433"]
+    },
+    {
+      "id": "push-ask-only",
+      "decision": "commit owned by orchestrator with explicit staged paths; git push requires ask-permission, never autonomous; repo currently ahead 2 (d6dbf89, f694185) - do NOT push",
+      "refs": []
+    },
+    {
+      "id": "plans-3-tasks-3-waves",
+      "decision": "keep this plan at 3 tasks / 3 waves; canary greps (hooks/STATE_KEY/lifts/ease/RM/no-libs) are the cheap constraint check; suite green required before commit",
+      "refs": []
+    }
+  ],
+  "architecture_snapshot": {
+    "type": "single-page dashboard",
+    "entry": "index.html",
+    "styles": "styles.css",
+    "script": "app.js",
+    "state_key": "gate-earn-dashboard-v1",
+    "state_key_ref": "app.js:8",
+    "element_id_hooks": 18,
+    "hooks": [
+      "themeToggle",
+      "themeIcon",
+      "leetcodeCount",
+      "incomeCount",
+      "activeLoops",
+      "weekCount",
+      "leetcodeProgress",
+      "incomeProgress",
+      "loopProgress",
+      "weekProgress",
+      "timelineWeeks",
+      "timelineDetailContent",
+      "calcTotal",
+      "calcRange",
+      "checklistProgress",
+      "checklistLabel",
+      "pwsProgress",
+      "pwsLabel"
+    ],
+    "key_anchors": {
+      "hero_section": "index.html:55-129",
+      "hero_eyebrow": "index.html:58",
+      "hero_h1_accent": "index.html:59-61",
+      "hero_subtitle": "index.html:62-64",
+      "hero_meta_goal_chip": "index.html:65-70",
+      "hero_dial_svg": "index.html:72-127",
+      "dial_center_value_143": "index.html:94-101",
+      "dial_center_label_days": "index.html:102-109",
+      "hero_css_block": "styles.css:221-433",
+      "hero_eyebrow_css": "styles.css:265-290",
+      "hero_h1_css": "styles.css:292-299",
+      "h1_accent_css": "styles.css:301-305",
+      "hero_subtitle_css": "styles.css:307-312",
+      "hero_meta_css": "styles.css:314-351",
+      "loop_dial_css": "styles.css:353-433",
+      "dial_track_css": "styles.css:365-369",
+      "dial_progress_css": "styles.css:371-381",
+      "dial_draw_keyframes": "styles.css:383-391",
+      "dial_inner_css": "styles.css:393-398",
+      "dial_center_value_css": "styles.css:412-417",
+      "dial_center_label_css": "styles.css:419-425",
+      "responsive_hero_768": "styles.css:2006-2008",
+      "responsive_hero_grid_960": "styles.css:2020-2032",
+      "responsive_meta_480": "styles.css:2075-2085",
+      "ease_token": "styles.css:51",
+      "lift_top3_card": "styles.css:779",
+      "lift_pws_link": "styles.css:1914",
+      "reduced_motion_kill_switch": "styles.css:2102",
+      "js_reduced_motion_mirror": "app.js:391"
+    },
+    "current_ui_state": "No sticky header (aa8dbd0). Skip-link then fixed top-right #themeToggle with stronger mobile border (d6dbf89). Footer removed (f694185). Hero + KPI strip + sections (loop/top3/tiers/timeline/calc/setup/reference), timeline week-detail view-transitions, checklist, PWS labs list, calculator. Dark/light themes via :root tokens. Motion: dial-draw sole load moment <=800ms, single ease styles.css:51, lifts exactly 2, RM kill-switch styles.css:2102.",
+    "base_commit": "f694185",
+    "branch": "main",
+    "remote": "https://github.com/Mariakevin/Learn-Earn.git",
+    "ahead_unpushed": ["d6dbf89", "f694185"]
+  },
+  "research_digest": {
+    "design_direction_locked": true,
+    "locked_by": "orchestrator",
+    "user_approval": "proceed",
+    "option": "Option 2 Hero rework with dial-as-thesis emphasis",
+    "pillars": {
+      "type": "stronger display hierarchy on h1 (scale/weight contrast); gold accent ONLY on Earn; eyebrow refined as section mark; subtitle/meta quieter tighter",
+      "dial-thesis": "clearer track vs progress contrast; calmer inner ring; better node-label spacing hierarchy; center value as numeric hero (larger 143, tighter DAYS TO GATE) - existing SVG/CSS only",
+      "composition": "better copy|dial balance and vertical rhythm; mobile stack remains dial-legible",
+      "motion": "dial-draw stays THE single orchestrated load moment <=800ms; no new scattered animations/lifts; single ease only"
+    },
+    "scope_in": [
+      "index.html:55-129 hero markup (presentation structure only; copy frozen)",
+      "styles.css .hero block ~221-433",
+      "styles.css responsive hero ~2006-2032"
+    ],
+    "out_of_scope": [
+      "date changes",
+      "color-scheme logic changes",
+      "copy rewrites",
+      "brand palette wholesale change",
+      "any app.js edit",
+      "frameworks/libraries/CDNs/bundlers",
+      "git push (ask only; ahead 2)"
+    ],
+    "baseline_label": "prior rate-improve envelope anchors (styles.css:50/786/1946/2160) are baseline references; revalidated in this tree as 51/779/1914/2102",
+    "latest_shipped_commits": ["af85985", "d6dbf89", "f694185"],
+    "open_optional": "20260923-ui-ux-rate-improve re-rate-round still pending (not a dependency of this plan)",
+    "output_contract": "DESIGN-SPEC (design-spec.md) -> IMPLEMENT-DIFF-REPORT (impl notes + green suite stdout) -> GATE-REVIEW (file:line evidence, stage_paths recommendation)",
+    "findings": []
+  },
+  "plan_summary": "3 waves, 3 tasks, 3 contracts: hero-design-spec (wave 1, gem-designer fallback general, read-only -> design-spec.md DESIGN-SPEC with file:line targets, before/after intent, tokens, mobile notes, acceptance greps) -> hero-implement (wave 2, gem-implementer, apply spec to index.html and/or styles.css only, TDD-red greps first, full suite green with stdout embedded, NO app.js) -> gate-ship (wave 3, gem-reviewer, full acceptance with file:line evidence, re-run or cite suite, confirm all hard constraints + design-spec acceptance, recommend stage_paths). Orchestrator commits 20260923-hero-dial-upgrade_wave-3 with explicit paths (index.html, styles.css, docs/plan/20260923-hero-dial-upgrade/); push = ask only (currently ahead 2: d6dbf89 + f694185 - do NOT push).",
+  "context_snapshot_fields": {
+    "hero-design-spec": ["tech_stack", "constraints", "research_digest"],
+    "hero-implement": [
+      "tech_stack",
+      "constraints",
+      "conventions",
+      "architecture_snapshot",
+      "research_digest"
+    ],
+    "gate-ship": [
+      "constraints",
+      "conventions",
+      "research_digest",
+      "plan_summary"
+    ]
+  },
+  "config_snapshot": {}
+}

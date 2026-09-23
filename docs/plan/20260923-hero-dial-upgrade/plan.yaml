@@ -1,0 +1,369 @@
+plan_id: 20260923-hero-dial-upgrade
+objective: >
+  Redesign the dashboard hero top portion (eyebrow, h1 hierarchy, subtitle/meta
+  quieting, Goal chip, and loop-dial thesis) so the dial reads as the single
+  numeric hero moment while preserving all vanilla/motion/a11y hard constraints.
+complexity: MEDIUM
+status: completed
+created: 2026-09-23
+base_commit: f694185
+
+context_envelope: context_envelope.json
+working_dir: /home/Marayn/Desktop/Earn
+
+baseline:
+  label: "baseline references below are prior-plan anchors; line numbers revalidated in this working tree at plan author time"
+  prior_plans:
+    - id: 20260923-ui-ux-rate-improve
+      status: open-optional
+      note: >
+        rate-1/improve-1 shipped (af85985); re-rate-round still pending as an
+        optional open loop - this hero plan does not depend on it
+      prior_anchors_revalidated:
+        ease_token_prior: "styles.css:50 (prior envelope)"
+        ease_token_current: "styles.css:51 (this tree)"
+        lift_top3_prior: "styles.css:786 (prior envelope)"
+        lift_top3_current: "styles.css:779 (this tree)"
+        lift_pws_prior: "styles.css:1946 (prior envelope)"
+        lift_pws_current: "styles.css:1914 (this tree)"
+        rm_kill_switch_prior: "styles.css:2160 (prior envelope)"
+        rm_kill_switch_current: "styles.css:2102 (this tree)"
+  current_ui_state: >
+    No sticky header (aa8dbd0). Skip-link then fixed top-right #themeToggle
+    (d6dbf89 stronger mobile border). Footer removed (f694185). Hero section
+    index.html:55-129 (eyebrow, h1 + h1-accent, subtitle, hero-meta Goal chip,
+    hero-dial SVG loop-dial). Motion baseline: dial-draw sole load moment
+    <=800ms, single ease cubic-bezier(0.2, 0.8, 0.2, 1) (styles.css:51),
+    lifts exactly 2 at styles.css:779 and styles.css:1914, RM kill-switch
+    styles.css:2102 (JS mirror app.js:391).
+  motion_baseline_do_not_replan:
+    - dial-draw is THE single orchestrated load moment; budget <=800ms
+    - single ease token cubic-bezier(0.2, 0.8, 0.2, 1) (styles.css:51)
+    - lift policy: translateY(-1px) exactly 2 - .top3-card (styles.css:779), .pws-link (styles.css:1914)
+    - prefers-reduced-motion kill-switch covering all motion (styles.css:2102, JS mirror app.js:391)
+    - no will-change, no animation-timeline, no scattered hover-lifts
+  git_state: "main ahead 2 unpushed commits (d6dbf89, f694185); push = ask only; do NOT push in this plan"
+
+scope:
+  in_scope:
+    - index.html:55-129 hero section structure/classes only (eyebrow, h1/h1-accent, subtitle, hero-meta Goal chip, hero-dial SVG loop-dial) - markup edits allowed only when required by the locked design direction; copy text frozen
+    - styles.css .hero block ~221-433 (hero-grid, eyebrow, h1, h1-accent, subtitle, hero-meta, loop-dial, dial-track/progress/inner/node/node-label/center-value/label/sub)
+    - styles.css responsive hero anchors ~2006-2032 (@media width >= 768 .hero padding; width >= 960 .hero-grid / .hero-dial / .loop-dial)
+    - type hierarchy, dial track/progress contrast, inner-ring calm, node-label spacing, center value numeric-hero treatment, copy|dial balance and vertical rhythm, mobile stack dial legibility
+    - existing SVG/CSS only - no new libraries, no JS motion drivers
+  out_of_scope:
+    - dates (FEB 2027 / GATE date text unchanged)
+    - color-scheme (dark/light) logic
+    - copy rewrites (wording of eyebrow/h1/subtitle/meta labels and values frozen; presentation only)
+    - brand palette wholesale change (gold-on-dark refined not replaced; micro-token tweak only if WCAG AA maintained both themes)
+    - any app.js edit (FROZEN)
+    - frameworks, libraries, CDNs, bundlers
+    - git push (ask only; currently ahead 2 - do NOT push)
+
+design_direction:
+  status: locked
+  locked_by: orchestrator
+  user_approval: "proceed"
+  option: "Option 2 Hero rework with dial-as-thesis emphasis"
+  pillars:
+    - id: type
+      intent: >
+        Stronger display hierarchy on h1 (scale/weight contrast); gold accent
+        ONLY on "Earn"; eyebrow refined as section mark; subtitle and meta
+        quieter and tighter
+    - id: dial-thesis
+      intent: >
+        Clearer track vs progress contrast; calmer inner ring; better
+        node-label spacing hierarchy; center value as numeric hero (larger 143,
+        tighter DAYS TO GATE treatment) - existing SVG/CSS only
+    - id: composition
+      intent: >
+        Better copy|dial balance and vertical rhythm; mobile stack remains
+        dial-legible
+    - id: motion
+      intent: >
+        dial-draw stays THE single orchestrated load moment <=800ms; no new
+        scattered animations/lifts; single ease only
+
+tasks:
+  - id: hero-design-spec
+    wave: 1
+    status: completed
+    agent: gem-designer
+    fallback_agent: general
+    deps: []
+    conflicts_with: []
+    mode: read-only on source
+    output_contract: DESIGN-SPEC
+    deliverable: docs/plan/20260923-hero-dial-upgrade/design-spec.md
+    result: design-spec-md-written-26-elements-source-untouched
+    description: >
+      Produce a concrete design spec for the locked Option 2 hero/dial
+      direction. Read-only on index.html, styles.css, and app.js. Revalidate
+      every anchor against this working tree (prior-plan line numbers may be
+      stale - label any prior baseline cite). For each hero element (eyebrow,
+      h1 + h1-accent, subtitle, hero-meta Goal chip, dial track/progress/inner/
+      nodes/node-labels/center-value/DAYS TO GATE/subs, hero-grid composition,
+      responsive anchors ~2006-2032) write file:line targets, before/after
+      intent, token usage from existing :root tokens, mobile notes, and
+      acceptance greps the implementer and gate can run. gem-designer is known
+      free-tier broken - fallback_agent: general executes this task.
+    acceptance:
+      - "design-spec.md exists at docs/plan/20260923-hero-dial-upgrade/design-spec.md labeled DESIGN-SPEC"
+      - "task is read-only: no edits to index.html, styles.css, or app.js"
+      - "every design target cites file:line in this working tree (evidence_rule); prior-plan anchors labeled as baseline and revalidated"
+      - "covers all four locked pillars: type hierarchy, dial thesis, composition, motion"
+      - "gold accent restricted to Earn only in the h1 treatment spec; no wholesale brand palette change recommended"
+      - "spec keeps dial-draw as THE single load moment <=800ms; recommends no new animations, no new lifts, single ease cubic-bezier(0.2, 0.8, 0.2, 1) (styles.css:51)"
+      - "spec requires lifts stay exactly 2: .top3-card (styles.css:779) and .pws-link (styles.css:1914)"
+      - "spec requires RM kill-switch (styles.css:2102) continue covering all motion; no will-change / animation-timeline"
+      - 'spec requires app.js FROZEN: 18 getElementById hooks + STATE_KEY "gate-earn-dashboard-v1" (app.js:8) untouched'
+      - "spec requires KEEP_VANILLA: no frameworks/libraries/CDNs/bundlers; existing SVG/CSS only"
+      - "spec requires WCAG AA contrast in both themes for all type changes; 44px targets preserved"
+      - "spec requires ASCII-only edits except existing Rs (rupee) symbol"
+      - "spec freezes copy text, dates, and color-scheme logic; presentation-only guidance"
+      - "spec includes mobile notes: stacked hero remains dial-legible at width <= 480 / <= 639 anchors"
+      - "spec includes concrete acceptance greps for: hooks count 18, STATE_KEY, lifts=2, cubic-bezier count=1, RM present, no libs, no will-change/animation-timeline"
+      - "no recommendation requires an app.js edit or a git push"
+
+  - id: hero-implement
+    wave: 2
+    status: completed
+    agent: gem-implementer
+    fallback_agent: general
+    deps: [hero-design-spec]
+    conflicts_with: [gate-ship]
+    result: pillars-abcd-applied-suite-green-appjs-frozen
+    output_contract: IMPLEMENT-DIFF-REPORT
+    description: >
+      Apply design-spec.md to index.html and/or styles.css only. MUST load the
+      frontend-philosophy skill before editing. Capture TDD-red greps first
+      (prove each spec change is absent), then edit, then green verification.
+      app.js is FROZEN. Write an implement report into design-spec.md (new
+      IMPLEMENT NOTES section) or a sibling note under
+      docs/plan/20260923-hero-dial-upgrade/ with files touched, file:line
+      before/after, TDD-red/green evidence, full suite stdout, and canary grep
+      results. Embed full suite stdout - the reviewer sandbox denies npx.
+    hard_constraints:
+      - "KEEP_VANILLA: no frameworks, libraries, CDNs, bundlers; npm only prettier/eslint/tsc"
+      - 'app.js FROZEN - never edit; keep all 18 getElementById hooks and STATE_KEY "gate-earn-dashboard-v1" (app.js:8) intact'
+      - "scope files only: index.html and/or styles.css; docs/plan/20260923-hero-dial-upgrade/* for reports"
+      - "single ease token only: cubic-bezier(0.2, 0.8, 0.2, 1) (styles.css:51); no new ad-hoc easing curves"
+      - "lift policy: translateY(-1px) exactly 2 - .top3-card (styles.css:779) and .pws-link (styles.css:1914); hero gains no lift"
+      - "RM kill-switch (styles.css:2102) must cover ALL motion; dial-draw sole load moment <=800ms"
+      - "no will-change, no animation-timeline, no scattered animations"
+      - "ASCII-only edits except existing Rs (rupee) symbol"
+      - "copy/content/dates frozen; color-scheme logic frozen; brand gold-on-dark refined not replaced; AA maintained both themes"
+      - "44px targets and focus-visible behavior not regressed"
+    acceptance:
+      - "frontend-philosophy skill loaded before any edit"
+      - "consumes design-spec.md (DESIGN-SPEC contract); implements spec targets or defers with reason in the implement report"
+      - "TDD-red evidence captured before each edit (grep proving absence); green verification after"
+      - "only index.html and/or styles.css modified for source; app.js untouched (FROZEN)"
+      - '18 getElementById hooks + STATE_KEY "gate-earn-dashboard-v1" (app.js:8) intact (grep-verified)'
+      - "lifts stay exactly 2: .top3-card (styles.css:779) and .pws-link (styles.css:1914); hero section has no translateY(-1px)"
+      - "single ease intact: cubic-bezier(0.2, 0.8, 0.2, 1) (styles.css:51) remains the sole custom ease; rg -c cubic-bezier styles.css == 1"
+      - "RM kill-switch (styles.css:2102) still present and covers all motion touched; dial-draw remains THE single orchestrated load moment <=800ms; no new animations"
+      - "no will-change, no animation-timeline introduced (rg clean)"
+      - "no frameworks/libraries/CDNs/bundlers introduced; existing SVG/CSS only"
+      - "scope untouched: no date changes, no color-scheme logic changes, no copy rewrites, no wholesale palette replacement; WCAG AA maintained in both themes for touched type"
+      - "44px targets and keyboard/focus behavior not regressed"
+      - "ASCII-only edits except existing Rs (rupee) symbol"
+      - "implement report exists (design-spec.md IMPLEMENT NOTES section or sibling note under docs/plan/20260923-hero-dial-upgrade/) with files touched, file:line evidence, TDD-red/green, suite stdout, canary greps"
+      - "verification suite green: npx prettier --check index.html styles.css app.js; npx tsc --allowJs --checkJs false --noEmit app.js; npx eslint app.js"
+      - "suite stdout embedded in the implement report (reviewer sandbox denies npx - evidence_rule)"
+      - "DENIED (do not run): node --check, stylelint, python3, &&-chained commands"
+      - "no commit and no push performed by this task; push = ask only (repo currently ahead 2: d6dbf89 + f694185)"
+    verification:
+      - npx prettier --check index.html styles.css app.js
+      - npx tsc --allowJs --checkJs false --noEmit app.js
+      - npx eslint app.js
+      - "rg -c getElementById app.js -> 18; rg STATE_KEY app.js -> gate-earn-dashboard-v1 at app.js:8"
+      - "rg -c 'translateY(-1px)' styles.css -> 2 at styles.css:779 and styles.css:1914"
+      - "rg -c cubic-bezier styles.css -> 1 at styles.css:51"
+      - "rg -c prefers-reduced-motion styles.css -> >=1 at styles.css:2102"
+      - "rg 'will-change|animation-timeline' styles.css -> no matches"
+      - "git status / git diff reviewed; stage only when orchestrator commits"
+      - "DENIED (do not run): node --check, stylelint, python3, &&-chained commands"
+
+  - id: gate-ship
+    wave: 3
+    status: completed
+    agent: gem-reviewer
+    fallback_agent: general
+    deps: [hero-implement]
+    result: approve-prd-score-97-to-100-no-critical
+    conflicts_with: [hero-implement]
+    output_contract: GATE-REVIEW
+    description: >
+      Full acceptance review of the working-tree diff against design-spec.md
+      and every hard constraint, with file:line evidence on every claim.
+      Re-run the verification suite where npx is allowed; if the sandbox denies
+      npx, cite the implement report's embedded suite stdout and re-run greps
+      independently (evidence_rule). Confirm design-spec acceptance items,
+      constraint canaries, and scope files only. Recommend stage_paths for the
+      orchestrator; do not commit or push - orchestrator owns the commit
+      (message pattern 20260923-hero-dial-upgrade_wave-3) and push remains
+      ask-only.
+    acceptance:
+      - "every claim cites file:line in this working tree (evidence_rule)"
+      - "design-spec.md consumed; each DESIGN-SPEC acceptance item verified pass/fail with evidence"
+      - "diff scope confirmed: only index.html, styles.css, and docs/plan/20260923-hero-dial-upgrade/* changed; app.js untouched (FROZEN)"
+      - '18 getElementById hooks + STATE_KEY "gate-earn-dashboard-v1" (app.js:8) intact (gate re-greps or cites implementer evidence)'
+      - "single ease intact: cubic-bezier(0.2, 0.8, 0.2, 1) (styles.css:51) sole custom ease; count == 1"
+      - "lifts exactly 2: .top3-card (styles.css:779) and .pws-link (styles.css:1914); hero has no lift"
+      - "RM kill-switch (styles.css:2102) covers all motion; dial-draw sole load moment <=800ms; no new scattered animations"
+      - "no will-change, no animation-timeline"
+      - "KEEP_VANILLA held: no frameworks/libraries/CDNs/bundlers in diff"
+      - "scope untouched: no dates, no color-scheme logic, no copy rewrites, no wholesale palette change; AA both themes for touched type; 44px targets intact"
+      - "ASCII-only source edits except existing Rs (rupee) symbol"
+      - "verification suite green: re-run npx prettier/tsc/eslint when allowed; otherwise cite implement report suite stdout + re-run greps independently"
+      - "push not performed; recommend push = ask only (repo ahead 2: d6dbf89 + f694185 - do NOT push)"
+      - "stage_paths recommendation listed explicitly for orchestrator (suggested: index.html, styles.css, docs/plan/20260923-hero-dial-upgrade/*)"
+      - "verdict explicit: approve (orchestrator may commit 20260923-hero-dial-upgrade_wave-3) or request-changes with file:line findings"
+      - "task is read-only for source files: no edits to index.html, styles.css, or app.js by the reviewer"
+
+contracts:
+  - from_task: hero-design-spec
+    to_task: hero-implement
+    artifact: >
+      DESIGN-SPEC design-spec.md at
+      docs/plan/20260923-hero-dial-upgrade/design-spec.md: per-element
+      file:line targets, before/after intent, token usage, mobile notes,
+      acceptance greps, four locked pillars covered
+  - from_task: hero-implement
+    to_task: gate-ship
+    artifact: >
+      Working-tree diff of index.html / styles.css (app.js untouched) plus
+      green verification suite stdout embedded in the implement report
+      (design-spec.md IMPLEMENT NOTES or sibling note) with TDD-red/green and
+      canary grep results
+  - from_task: gate-ship
+    to_task: orchestrator
+    artifact: >
+      GATE-REVIEW verdict with file:line evidence for every claim, design-spec
+      acceptance checklist, canary results, and explicit stage_paths
+      recommendation; orchestrator commits 20260923-hero-dial-upgrade_wave-3
+      (push = ask only)
+
+waves:
+  - wave: 1
+    name: hero-design-spec
+    tasks: [hero-design-spec]
+    depends_on: []
+    status: completed
+    agent: gem-designer
+    fallback_agent: general
+  - wave: 2
+    name: hero-implement
+    tasks: [hero-implement]
+    depends_on: [hero-design-spec]
+    status: completed
+    agent: gem-implementer
+    fallback_agent: general
+  - wave: 3
+    name: gate-ship
+    tasks: [gate-ship]
+    depends_on: [hero-implement]
+    status: completed
+    agent: gem-reviewer
+    fallback_agent: general
+    ship: >
+      On approve: orchestrator stages explicit paths only (index.html,
+      styles.css, docs/plan/20260923-hero-dial-upgrade/), commits message
+      20260923-hero-dial-upgrade_wave-3; git push requires ask-permission and
+      must NOT run in this plan (currently ahead 2).
+
+risks:
+  - id: free-tier-agent-failure
+    detail: >
+      gem-designer and gem-planner are known free-tier broken; gem-implementer
+      and gem-reviewer can still fail transiently; reviewer sandbox denies npx
+    mitigation: >
+      fallback_agent: general on every task (explicit for design-spec); gate
+      cites implementer suite stdout when npx denied and re-runs greps
+      independently; orchestrator re-dispatches failed waves
+  - id: scope-creep-appjs-copy
+    detail: >
+      hero markup edits could drift into app.js hooks, copy rewrites, date
+      changes, or color-scheme logic instead of presentation-only work
+    mitigation: >
+      app.js FROZEN with 18-hook + STATE_KEY canaries on implement and gate;
+      copy/dates/scheme frozen in scope.out_of_scope and every acceptance[];
+      gate rejects any out-of-scope file or text change with file:line
+  - id: motion-budget-regression
+    detail: >
+      dial styling or entrance tweaks could add a second load animation, push
+      load sequence past 800ms, or scatter new transitions
+    mitigation: >
+      dial-draw remains THE single load moment <=800ms as binding hard
+      constraint; rg canaries for animation/keyframes additions; gate checks
+      every new animation declaration against the motion baseline
+  - id: lift-ease-canary-break
+    detail: >
+      polish could introduce a third translateY(-1px) lift on hero elements or
+      a second cubic-bezier curve
+    mitigation: >
+      lifts exactly 2 (styles.css:779, styles.css:1914) and cubic-bezier
+      count == 1 (styles.css:51) are gateable acceptance greps on implement
+      and gate; hero must gain no lift
+  - id: aa-contrast-type-changes
+    detail: >
+      stronger h1 scale/weight, quieter subtitle/meta, and dial center-value
+      resizing can push text below WCAG AA in dark or light theme
+    mitigation: >
+      AA both themes required in every acceptance[]; design-spec must state
+      token pairs used; gate verifies touched type pairs with file:line cites
+  - id: mobile-dial-legibility
+    detail: >
+      composition and type changes can shrink or crowd the dial in the stacked
+      mobile layout so 143 / DAYS TO GATE / node labels become unreadable
+    mitigation: >
+      design-spec mobile notes required for width <= 480 / <= 639 and
+      responsive anchors ~2006-2032; gate checks .loop-dial width and center
+      text sizing still legible in stacked flow
+  - id: stale-baseline-anchors
+    detail: >
+      prior rate-improve envelope line numbers (styles.css:50/786/1946/2160)
+      are stale versus this tree (51/779/1914/2102); implementer or gate could
+      cite wrong lines and false-fail a canary
+    mitigation: >
+      plan labels prior anchors as baseline and revalidated current values;
+      design-spec task requires revalidate-against-this-tree; evidence_rule
+      file:line must match the working tree at review time
+  - id: unauthorized-push
+    detail: >
+      ship step could autonomously push while main is already ahead 2
+      unpushed commits (d6dbf89, f694185)
+    mitigation: >
+      push_policy ask-only on every task acceptance; gate acceptance forbids
+      push; orchestrator commit only, push deferred until user asks
+
+ship:
+  stage_paths:
+    - index.html
+    - styles.css
+    - docs/plan/20260923-hero-dial-upgrade/
+  stage_policy: explicit file paths only; never .engram/ or node_modules/
+  commit_message: 20260923-hero-dial-upgrade_wave-3
+  commit_owner: orchestrator after gate-ship approve
+  push_policy: ask-permission only; never autonomous; do NOT push in this plan (ahead 2)
+
+verification:
+  suite:
+    - npx prettier --check index.html styles.css app.js
+    - npx tsc --allowJs --checkJs false --noEmit app.js
+    - npx eslint app.js
+  canaries:
+    - "rg -c getElementById app.js -> 18"
+    - 'rg STATE_KEY app.js -> "gate-earn-dashboard-v1" at app.js:8'
+    - "rg -c 'translateY(-1px)' styles.css -> 2 (styles.css:779, styles.css:1914)"
+    - "rg -c cubic-bezier styles.css -> 1 (styles.css:51)"
+    - "rg -c prefers-reduced-motion styles.css -> >=1 (styles.css:2102)"
+    - "rg 'will-change|animation-timeline' styles.css -> no matches"
+    - "git diff --name-only -> only index.html, styles.css, docs/plan/20260923-hero-dial-upgrade/*"
+  denied:
+    - node --check
+    - stylelint
+    - python3
+    - "&&-chained commands"
