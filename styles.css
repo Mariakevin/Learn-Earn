@@ -1,6 +1,7 @@
 /* Spacing scale: 4, 8, 12, 16, 24, 32, 48, 64
    Breakpoints: min-width 640 / 768 / 960; max-width 639 / 480
-   Mobile-first: base rules target small screens; min-width queries enhance. */
+   Mobile-first: base rules target small screens; min-width queries enhance.
+   Type: section-block h3 = 1rem under h2 clamp; mono h3 (week-box) stays 0.9375rem. */
 
 /* Color-system guardrails (patterns CP-1..CP-12, research 2026-09-22)
    Palette doctrine:
@@ -91,7 +92,7 @@
 
 html {
   scroll-behavior: smooth;
-  scroll-padding-top: 72px;
+  scroll-padding-top: 16px;
 }
 
 body {
@@ -419,7 +420,7 @@ a {
 .dial-center-label {
   fill: var(--text-2);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 9px;
+  font-size: 11px;
   font-weight: 500;
   letter-spacing: 0.14em;
 }
@@ -427,7 +428,7 @@ a {
 .dial-center-sub {
   fill: var(--gold);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 10px;
+  font-size: 11px;
   font-weight: 600;
   letter-spacing: 0.1em;
 }
@@ -617,9 +618,15 @@ a {
 /* ===== Sections ===== */
 .section {
   margin-bottom: 48px;
-  scroll-margin-top: 72px;
+  scroll-margin-top: 16px;
   content-visibility: auto;
   contain-intrinsic-size: auto 600px;
+}
+
+/* Tiers is the longest section (~4 tiers, 3/5/7/11 activities);
+   closer intrinsic size avoids first-scroll blank slab vs 600px (R7). */
+#tiers {
+  contain-intrinsic-size: auto 4000px;
 }
 
 .section-header {
@@ -665,11 +672,6 @@ a {
   border: 1px solid var(--hairline);
   border-radius: var(--radius-md);
   flex: 1 1 200px;
-  transition: border-color 140ms var(--ease-out);
-}
-
-.loop-step:hover {
-  border-color: var(--gold);
 }
 
 .loop-number {
@@ -739,12 +741,6 @@ a {
   border: 1px solid var(--hairline);
   border-radius: var(--radius-sm);
   border-left: 3px solid var(--gold-line);
-  transition: border-color 140ms var(--ease-out);
-}
-
-.chain-card:hover {
-  border-color: var(--gold);
-  border-left-color: var(--gold);
 }
 
 .chain-card h4 {
@@ -776,13 +772,11 @@ a {
   border: 1px solid var(--hairline);
   border-radius: var(--radius-md);
   box-shadow: var(--top-hi);
-  transition:
-    border-color 140ms var(--ease-out),
-    transform 140ms var(--ease-out);
+  transition: transform 140ms var(--ease-out);
 }
 
+/* Lift kept per two-lift policy (with .pws-link); gold hover removed (R1). */
 .top3-card:hover {
-  border-color: var(--gold);
   transform: translateY(-1px);
 }
 
@@ -855,13 +849,6 @@ a {
   border-radius: var(--radius-md);
   padding: 24px;
   box-shadow: var(--top-hi);
-  transition: border-color 140ms var(--ease-out);
-}
-
-.tier-card:hover {
-  border-top-color: var(--gold);
-  border-right-color: var(--gold);
-  border-bottom-color: var(--gold);
 }
 
 .tier-1 {
@@ -919,7 +906,7 @@ a {
   font-size: 1.0625rem;
   font-weight: 600;
   margin-bottom: 16px;
-  color: var(--text-2);
+  color: var(--text-1);
 }
 
 .tier-activities {
@@ -933,11 +920,6 @@ a {
   background: var(--surface-2);
   border: 1px solid var(--hairline);
   border-radius: var(--radius-sm);
-  transition: border-color 140ms var(--ease-out);
-}
-
-.activity-card:hover {
-  border-color: var(--gold-line);
 }
 
 .activity-header {
@@ -994,7 +976,7 @@ a {
   position: relative;
   padding: 8px 0 16px;
   margin-bottom: 16px;
-  scroll-margin-top: 72px;
+  scroll-margin-top: 16px;
 }
 
 .timeline-phases {
@@ -1015,7 +997,7 @@ a {
   border: 1px solid var(--hairline);
   border-radius: var(--radius-sm);
   font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 0.625rem;
+  font-size: 0.6875rem;
   font-weight: 500;
   letter-spacing: 0.06em;
   text-transform: uppercase;
@@ -1528,14 +1510,6 @@ a {
   border-radius: 0;
   padding: 16px 8px;
   box-shadow: none;
-  transition:
-    border-color 140ms var(--ease-out),
-    background 140ms var(--ease-out);
-}
-
-.platform-card:hover {
-  background: var(--gold-soft);
-  border-bottom-color: var(--gold-line);
 }
 
 .platform-header {
@@ -1547,7 +1521,7 @@ a {
 }
 
 .platform-header h3 {
-  font-size: 1.0625rem;
+  font-size: 1rem;
   font-weight: 600;
 }
 
@@ -1629,7 +1603,7 @@ a {
 }
 
 .subsection-block > h3 {
-  font-size: 1.0625rem;
+  font-size: 1rem;
   font-weight: 600;
   margin-bottom: 16px;
 }
@@ -1695,11 +1669,6 @@ a {
   border-radius: var(--radius-md);
   padding: 16px;
   box-shadow: var(--top-hi);
-  transition: border-color 140ms var(--ease-out);
-}
-
-.career-card:hover {
-  border-color: var(--gold);
 }
 
 .career-header {
@@ -1780,7 +1749,7 @@ a {
 }
 
 .s9-block h3 {
-  font-size: 0.9375rem;
+  font-size: 1rem;
   font-weight: 600;
   margin-bottom: 12px;
 }
@@ -1961,7 +1930,6 @@ a {
   border-radius: 0 0 var(--radius-md) var(--radius-md);
   padding: 16px;
   padding-top: 40px;
-  transition: border-color 140ms var(--ease-out);
 }
 
 .artifact-card::before {
@@ -1970,18 +1938,13 @@ a {
   top: 10px;
   right: 12px;
   font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 0.5625rem;
+  font-size: 0.6875rem;
   font-weight: 600;
   letter-spacing: 0.14em;
   color: var(--text-3);
   border: 1px dashed var(--hairline-strong);
   border-radius: 2px;
   padding: 2px 6px;
-}
-
-.artifact-card:hover {
-  border-color: var(--gold);
-  border-top-color: var(--gold);
 }
 
 .artifact-card h3 {
@@ -2097,11 +2060,6 @@ a {
     border-right: none;
   }
 
-  .tiers-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 16px;
-  }
-
   .calculator {
     grid-template-columns: 1fr 320px;
     gap: 24px;
@@ -2110,7 +2068,7 @@ a {
 
   .calc-total {
     position: sticky;
-    top: 72px;
+    top: 60px;
   }
 
   .lie-loop {
@@ -2121,7 +2079,6 @@ a {
 
 @media (width <= 639px) {
   .phase-band {
-    font-size: 0.5625rem;
     padding: 8px 4px;
   }
 }
@@ -2135,10 +2092,6 @@ a {
 
   .meta-item:last-child {
     border-bottom: none;
-  }
-
-  .week-label {
-    font-size: 0.625rem;
   }
 }
 

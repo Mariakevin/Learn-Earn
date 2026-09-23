@@ -1,0 +1,331 @@
+plan_id: 20260923-ui-ux-rate-improve
+objective: >
+  Rate the vanilla dashboard as a front-end/UI/UX specialist using a quality-first
+  rubric (score reported as decimal /10), implement the highest user-perceptible
+  quality improvements, and loop rate -> improve -> re-rate until an independent
+  designer re-rate is strictly above 9.0; quality over quantity - never game the
+  score with nitpicks.
+complexity: MEDIUM
+status: pending
+created: 2026-09-23
+base_commit: aa8dbd0
+
+context_envelope: context_envelope.json
+working_dir: /home/Marayn/Desktop/Earn
+
+baseline:
+  prior_plans:
+    - id: 20260922-animations-effects-transitions
+      commit: 4874c9c
+      gate: approve score 100
+      counts: 18 findings - 8 DO shipped / 10 SKIP
+    - id: 20260922-animations-effects-best-practices
+      commit: 91cfca2
+      gate: pass score 100 confidence 0.95
+      counts: 23 findings - 8 DONE-BASELINE / 10 SKIP-BASELINE / 2 NEW DO / 3 NEW SKIP
+    - id: 20260923-ui-ux-best-practices
+      commit: 6ff9540
+      gate: pass score 100 confidence 0.96
+      counts: 32 findings - 10 DONE-BASELINE / 13 SKIP-BASELINE / 4 NEW DO U1-U4 / 5 NEW SKIP U5-U9
+  plan_artifacts_status: >
+    Historical docs/plan artifacts removed in 258644f; format and evidence-rule
+    pattern recovered from git history (258644f^) and reused here.
+  current_ui_state: >
+    No sticky header (removed aa8dbd0). Skip-link first (styles.css:138, :focus
+    styles.css:156), then fixed top-right #themeToggle (styles.css:179, :hover
+    styles.css:200, :active styles.css:205, 44px). Hero + KPI strip + sections
+    (loop/top3/tiers/timeline/calc/setup/reference), timeline week-detail
+    view-transitions, checklist, PWS labs list, calculator, footer. Dark/light
+    themes via tokens styles.css :root. Motion: single ease --ease-out
+    cubic-bezier(0.2, 0.8, 0.2, 1) (styles.css:50), RM kill-switch
+    styles.css:2160, lifts only .top3-card (styles.css:786) and .pws-link
+    (styles.css:1946), one orchestrated load moment (dial-draw) <=800ms.
+  motion_baseline_do_not_replan:
+    - composite-only entrances (rise-in + dial-draw)
+    - single ease token cubic-bezier(0.2, 0.8, 0.2, 1) (styles.css:50)
+    - ::view-transition-group(week-detail) 180ms
+    - prefers-reduced-motion kill-switch covering all motion (styles.css:2160, JS mirror app.js:391)
+    - load-sequence budget <=800ms
+    - lift policy: only .top3-card + .pws-link translateY(-1px)
+    - forced-colors / moz-range / :active press parity findings from prior plans
+
+scope:
+  in_scope:
+    - visual hierarchy and information architecture legibility
+    - spacing rhythm and alignment consistency
+    - typography quality (scale, measure, weight, line-height coherence)
+    - consistency and design-system coherence (tokens, radii, borders, states)
+    - interaction affordance and states (hover/focus/active/disabled clarity)
+    - responsiveness and layout robustness across breakpoints
+    - dark-mode / light-mode visual parity (logic untouched)
+    - a11y polish: 44px targets, focus-visible gold ring, WCAG AA contrast
+    - overall craft and polish of the existing gold-on-dark aesthetic
+    - palette/token micro-refinement only where WCAG AA is maintained in both themes
+  out_of_scope:
+    - date changes
+    - color-scheme (dark/light) logic changes
+    - content or copy rewrites (minor button/label microcopy only if UX-critical and designer-flagged in a rate report)
+    - brand replacement (LIE // GATE 2027 gold-on-dark aesthetic is refined, not replaced)
+    - any app.js edit (FROZEN)
+    - speculative features, busywork, score-gaming nitpicks
+    - frameworks, libraries, CDNs, bundlers
+
+rubric:
+  rated_by: gem-designer - baseline rate AND every re-rate; no other agent may produce a score
+  rated_against: frontend-philosophy skill (5 Pillars of Intentional UI) plus the rubric axes below
+  axes:
+    - visual hierarchy
+    - spacing rhythm and alignment
+    - typography quality
+    - consistency and design-system coherence
+    - interaction affordance and states
+    - responsiveness and layout robustness
+    - dark-mode parity
+    - a11y (44px targets, focus-visible, WCAG AA contrast)
+    - overall craft
+  weights: designer chooses and reports per-axis weights with every score; weights must sum meaningfully across all axes
+  score_format: decimal /10 (one decimal place)
+  threshold: strictly > 9.0 (9.0 exactly is a fail and loops again)
+  findings_ranking: >
+    Strictly by user-perceptible quality impact (hierarchy, spacing, type,
+    consistency, affordance, polish). No score-gaming nitpicks, no busywork,
+    no speculative features. A finding that only inflates a number without
+    improving what a human sees and uses must not be reported as actionable.
+
+loop_policy:
+  entry: >
+    Dispatch wave 1 (rate-baseline). If its score is already strictly > 9.0,
+    orchestrator stops: verified no-op ship - run verification suite once,
+    persist plan status, report best score to user, do not dispatch waves 2-3.
+  cycle: >
+    Wave 2 improve-round (gem-implementer loads frontend-philosophy skill, applies
+    top-ranked findings from the latest RATE-FINDINGS-REPORT, verifies green) ->
+    wave 3 re-rate-round (gem-designer independent re-rate, writes next
+    RATE-FINDINGS-REPORT with threshold verdict).
+  decision: >
+    After each re-rate-round: score strictly > 9.0 -> exit loop to ship; score
+    <= 9.0 -> orchestrator re-dispatches wave 2 then wave 3, passing the latest
+    rate report to improve-round as its input.
+  max_cycles: 4 improve rounds total (cycle 1 is the first wave-2 dispatch); after 4 improve rounds with score <= 9.0, stop autonomously and escalate to the user with the best score achieved and the residual ranked findings.
+  ship: >
+    On exit: orchestrator re-runs verification suite, updates plan.yaml statuses,
+    stages explicit paths only (index.html, styles.css,
+    docs/plan/20260923-ui-ux-rate-improve/), commits with message
+    20260923-ui-ux-rate-improve_wave-3. Push only after ask-permission (never
+    autonomous). If nothing changed (no-op path), report without an empty commit.
+  cycle_index: K starts at 1; artifacts are rate-1.md (baseline), improve-K.md, rate-(K+1).md (re-rates).
+
+tasks:
+  - id: rate-baseline
+    wave: 1
+    status: completed
+    result: rate-1-md-score-7-7-threshold-fail-7-findings-gate-pass-96
+    agent: gem-designer
+    fallback_agent: general
+    deps: []
+    conflicts_with: []
+    output_contract: RATE-FINDINGS-REPORT
+    description: >
+      First independent specialist rate of the current working tree (base_commit
+      aa8dbd0) as a front-end/UI/UX designer. Load the frontend-philosophy skill
+      and rate against it plus every rubric axis with designer-chosen weights.
+      Produce a quality-first report: overall decimal /10, per-axis scores and
+      weights, findings ranked strictly by user-perceptible quality impact
+      (hierarchy, spacing, type, consistency, affordance, polish) with file:line
+      or selector evidence and in-constraint fix directions (target file +
+      re-validated selector/anchor). Explicit threshold verdict: score strictly
+      > 9.0 true or false. Read-only task; runs alone in wave 1.
+    acceptance:
+      - "rate-1.md exists at docs/plan/20260923-ui-ux-rate-improve/rate-1.md labeled RATE-FINDINGS-REPORT"
+      - overall score reported as decimal /10 with per-axis scores and designer-chosen weights covering every rubric axis
+      - rated against frontend-philosophy (5 Pillars of Intentional UI) and the rubric axes; rating done only by gem-designer
+      - findings ranked strictly by user-perceptible quality impact (hierarchy, spacing, type, consistency, affordance, polish); no score-gaming nitpicks, no busywork, no speculative features
+      - "every finding cites file:line or selector evidence in this working tree (evidence_rule)"
+      - every finding carries a concrete fix direction within hard constraints (target file + selector/anchor re-validated against final files)
+      - "threshold verdict stated explicitly: score strictly > 9.0 true or false"
+      - "recommends no date changes, no color-scheme logic changes, no copy rewrites, no brand replacement; palette micro-refinement only if WCAG AA maintained in both themes"
+      - "no recommendation requires a framework, library, CDN, bundler, or any app.js edit"
+      - "task is read-only: no edits to index.html, styles.css, or app.js"
+
+  - id: improve-round
+    wave: 2
+    status: completed
+    result: improve-1-r1-r7-all-addressed-stylescss-only-suite-green-gate-pass-100
+    agent: gem-implementer
+    fallback_agent: general
+    deps: [rate-baseline]
+    conflicts_with: [re-rate-round]
+    output_contract: IMPLEMENT-DIFF-REPORT
+    description: >
+      Apply the top-ranked findings from the latest RATE-FINDINGS-REPORT
+      (rate-1.md on first dispatch; rate-(K+1).md when re-dispatched by the
+      loop). MUST load the frontend-philosophy skill before editing. Re-validate
+      every selector/line anchor against the final files first (stale-anchor
+      risk). Capture TDD-red evidence (grep proving the change is absent) before
+      each edit, then green verification after. app.js is FROZEN: only
+      index.html and styles.css may change. Implement what fits the hard
+      constraints this cycle; defer the rest with reasons in improve-K.md.
+      Re-runnable: orchestrator re-dispatches this task on each loop cycle with
+      the newest rate report.
+    hard_constraints:
+      - "KEEP_VANILLA: no frameworks, libraries, CDNs, bundlers; npm only prettier/eslint/tsc"
+      - 'app.js FROZEN - never edit; keep all 18 getElementById hooks and STATE_KEY "gate-earn-dashboard-v1" (app.js:8) intact'
+      - "A11y: 44px targets, focus-visible gold ring (styles.css:132-135), WCAG AA contrast, keyboard operable, skip-link preserved"
+      - "single ease token only: --ease-out cubic-bezier(0.2, 0.8, 0.2, 1) (styles.css:50); no new ad-hoc easing curves"
+      - "lift policy: translateY(-1px) only on .top3-card (styles.css:786) and .pws-link (styles.css:1946)"
+      - "RM kill-switch (styles.css:2160) must cover ALL motion; one orchestrated load moment (dial-draw) <=800ms"
+      - "ASCII-only edits except Rs (rupee) symbol"
+      - "copy/content/dates frozen; color-scheme (dark/light) logic frozen; palette/token micro-refinement only if WCAG AA maintained; brand LIE // GATE 2027 gold-on-dark aesthetic refined not replaced"
+      - "quality over quantity: implement only designer-flagged user-perceptible findings; no speculative features or busywork"
+    acceptance:
+      - "frontend-philosophy skill loaded before any edit (5 Pillars of Intentional UI applied)"
+      - consumes the latest RATE-FINDINGS-REPORT (rate-1.md first dispatch; rate-(K+1).md on loop dispatch K)
+      - implements the top-ranked findings that fit hard constraints this cycle; improve-K.md records addressed finding IDs and deferred finding IDs with reasons
+      - "TDD-red evidence captured before each edit (grep proving absence); green verification after"
+      - only index.html and styles.css modified; app.js untouched (FROZEN)
+      - '18 getElementById hooks + STATE_KEY "gate-earn-dashboard-v1" (app.js:8) intact (grep-verified)'
+      - "lift policy intact: only .top3-card (styles.css:786) and .pws-link (styles.css:1946) translateY(-1px)"
+      - "single ease intact: --ease-out cubic-bezier(0.2, 0.8, 0.2, 1) (styles.css:50) remains the sole custom ease; no new ad-hoc curves"
+      - "reduced-motion kill-switch (styles.css:2160) covers ALL motion touched; one orchestrated load moment (dial-draw) only; load budget <=800ms"
+      - "a11y not regressed: 44px targets, focus-visible gold ring (styles.css:132-135), keyboard operable, WCAG AA contrast in both themes"
+      - "scope untouched: no date changes, no color-scheme logic changes, no copy rewrites (unless UX-critical and designer-flagged in the rate report); brand gold-on-dark refined not replaced; palette micro-refinement only if AA maintained"
+      - "ASCII-only edits except Rs (rupee) symbol; no frameworks/libraries/CDNs/bundlers introduced"
+      - "improve-K.md exists at docs/plan/20260923-ui-ux-rate-improve/improve-K.md labeled IMPLEMENT-DIFF-REPORT with addressed/deferred finding IDs, files touched, file:line evidence, verification output, and canary grep results"
+      - "verification suite green: npx prettier --check index.html styles.css app.js; npx tsc --allowJs --checkJs false --noEmit app.js; npx eslint app.js"
+      - "DENIED (do not run): node --check, stylelint, python3, &&-chained commands"
+      - "push requires ask-permission (never autonomous); commit 20260923-ui-ux-rate-improve_wave-3; explicit stage paths only"
+    verification:
+      - npx prettier --check index.html styles.css app.js
+      - npx tsc --allowJs --checkJs false --noEmit app.js
+      - npx eslint app.js
+      - git status / git diff reviewed
+      - "DENIED (do not run): node --check, stylelint, python3, &&-chained commands"
+
+  - id: re-rate-round
+    wave: 3
+    status: pending
+    agent: gem-designer
+    fallback_agent: general
+    deps: [improve-round]
+    conflicts_with: [improve-round]
+    output_contract: RATE-FINDINGS-REPORT
+    description: >
+      Independent fresh-eyes re-rate after reading improve-K.md and the working
+      tree diff. Load the frontend-philosophy skill; re-run the full rubric with
+      designer-chosen weights; do not inherit or anchor on the previous score.
+      Write the next RATE-FINDINGS-REPORT (rate-(K+1).md) with decimal /10
+      overall score, per-axis scores and weights, findings ranked by
+      user-perceptible quality impact (residual items only), canary-grep results,
+      and the threshold verdict score strictly > 9.0. The orchestrator reads this
+      same report to decide loop vs ship. Read-only for source files. Re-runnable
+      each loop cycle.
+    acceptance:
+      - "rate-(K+1).md exists at docs/plan/20260923-ui-ux-rate-improve/rate-(K+1).md labeled RATE-FINDINGS-REPORT"
+      - fresh independent re-rate by gem-designer after reading improve-K.md + git diff; prior score not inherited; full rubric re-run against frontend-philosophy with designer-reported weights
+      - "overall score as decimal /10; threshold verdict stated explicitly: score strictly > 9.0 true or false"
+      - residual findings ranked strictly by user-perceptible quality impact with file:line evidence and in-constraint fix directions; no score-gaming nitpicks
+      - "canary greps re-checked independently: 18 hooks + STATE_KEY (app.js:8), lifts only .top3-card/.pws-link, single ease (styles.css:50), RM kill-switch (styles.css:2160), no new libraries"
+      - "verification suite re-run if npx allowed; if denied, cite improve-K.md implementer results for prettier/tsc, re-run eslint and greps independently (evidence_rule)"
+      - "every claim cited with file:line in this working tree"
+      - "task is read-only for source files: no edits to index.html, styles.css, or app.js"
+      - "loop verdict explicit: score > 9.0 -> ship; score <= 9.0 -> residual findings feed the next improve-round (orchestrator re-dispatches waves 2-3 until score > 9.0 or max 4 improve rounds, then escalate with best score)"
+
+contracts:
+  - from_task: rate-baseline
+    to_task: improve-round
+    artifact: >
+      RATE-FINDINGS-REPORT rate-1.md at
+      docs/plan/20260923-ui-ux-rate-improve/rate-1.md: decimal /10 score,
+      per-axis scores + designer weights, findings ranked by user-perceptible
+      quality impact with file:line evidence and in-constraint fix directions,
+      threshold verdict score > 9.0
+  - from_task: improve-round
+    to_task: re-rate-round
+    artifact: >
+      IMPLEMENT-DIFF-REPORT improve-K.md at
+      docs/plan/20260923-ui-ux-rate-improve/improve-K.md plus the working-tree
+      diff of index.html / styles.css (app.js untouched) and green verification
+      output (prettier/tsc/eslint) with canary grep results
+  - from_task: re-rate-round
+    to_task: improve-round
+    artifact: >
+      RATE-FINDINGS-REPORT rate-(K+1).md at
+      docs/plan/20260923-ui-ux-rate-improve/rate-(K+1).md: re-rate score,
+      per-axis scores + weights, residual ranked findings with file:line
+      evidence, threshold verdict score > 9.0; orchestrator reads the same
+      report to choose loop (re-dispatch improve-round) vs ship
+
+waves:
+  - wave: 1
+    name: rate-baseline
+    tasks: [rate-baseline]
+    depends_on: []
+    status: completed
+  - wave: 2
+    name: improve-round
+    tasks: [improve-round]
+    depends_on: [rate-baseline]
+    status: completed
+    loop: re-dispatchable after a failing re-rate (consumes latest rate report); max 4 improve rounds
+  - wave: 3
+    name: re-rate-round
+    tasks: [re-rate-round]
+    depends_on: [improve-round]
+    status: pending
+    loop: re-dispatched with wave 2 on each loop cycle until score > 9.0 or max cycles then escalate
+
+risks:
+  - id: score-gaming-nitpicks
+    detail: >
+      rate/re-rate agents may pad reports with low-impact nitpicks to chase the
+      number instead of improving what users perceive (hierarchy, spacing, type,
+      consistency, affordance, polish)
+    mitigation: >
+      findings_ranking rule is binding on both rate tasks; acceptance rejects
+      busywork/speculative items; implementer implements only designer-flagged
+      user-perceptible findings; quality-over-quantity restated in envelope
+  - id: a11y-regression
+    detail: spacing/type/affordance tweaks can drop 44px targets, break the focus-visible gold ring (styles.css:132-135), or break keyboard operability/skip-link
+    mitigation: >
+      improve-round + re-rate-round acceptance require 44px, focus-visible ring,
+      keyboard operability intact; canary greps re-checked in re-rate
+  - id: aa-contrast-breakage
+    detail: palette/token micro-refinement or state fills can push text/UI below WCAG AA in either theme, especially light
+    mitigation: >
+      palette changes allowed only when AA is maintained in both themes; rate
+      tasks cite contrast pairs with file:line; re-rate re-checks touched pairs
+  - id: appjs-hook-breakage
+    detail: HTML edits could remove or rename one of the 18 getElementById hook ids or STATE_KEY "gate-earn-dashboard-v1" (app.js:8), breaking the frozen JS
+    mitigation: >
+      app.js FROZEN; grep gate in improve-round and re-rate-round acceptance
+      (18 hooks + STATE_KEY must be intact)
+  - id: motion-constraint-violation
+    detail: polish can tempt a second ease curve, a new lift, unscoped motion, load budget >800ms, or motion outside the RM kill-switch (styles.css:2160)
+    mitigation: >
+      single-ease + lift policy + kill-switch + 800ms budget are binding
+      hard constraints; canary greps re-checked at improve and re-rate; frontend-
+      philosophy single-ease/lift expectations applied
+  - id: scope-creep-copy-drift
+    detail: findings can drift into copy rewrites, date changes, color-scheme logic edits, or brand replacement instead of refinement
+    mitigation: >
+      scope.out_of_scope is hard; acceptance on every task rejects date/copy/
+      scheme-logic/brand-replacement diffs; designer-flagged UX-critical
+      microcopy is the only copy exception
+  - id: designer-implementer-disagreement
+    detail: implementer may defer a designer-flagged finding as constraint-infeasible, or implement something the designer ranks low, stalling convergence
+    mitigation: >
+      improve-K.md must list addressed vs deferred IDs with reasons; re-rate
+      audits the diff against the report; conflicts_with prevents concurrent
+      rate/improve; unresolved disputes escalate to the orchestrator/user
+  - id: loop-never-converges
+    detail: cycles could continue indefinitely with score stuck <= 9.0
+    mitigation: >
+      max 4 improve rounds (loop_policy.max_cycles); then stop autonomously and
+      escalate to the user with the best score achieved and residual ranked
+      findings; threshold is strictly > 9.0
+  - id: free-tier-agent-failures
+    detail: gem-planner is known-broken (this task is the planner fallback); gem-designer/gem-implementer/gem-reviewer can still fail free-tier transiently; reviewer sandbox denies npx
+    mitigation: >
+      fallback_agent: general on every task; orchestrator re-runs failed
+      dispatches; re-rate cites implementer verification when npx denied and
+      re-runs greps/eslint independently

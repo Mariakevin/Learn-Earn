@@ -1,0 +1,295 @@
+{
+  "plan_id": "20260923-ui-ux-rate-improve",
+  "objective": "Rate the vanilla dashboard as a front-end/UI/UX specialist using a quality-first rubric (score decimal /10), implement the highest user-perceptible quality improvements, and loop rate -> improve -> re-rate until an independent designer re-rate is strictly above 9.0; quality over quantity - never game the score.",
+  "complexity": "MEDIUM",
+  "tech_stack": {
+    "approach": "pure vanilla zero-build single-page dashboard",
+    "files": ["index.html", "styles.css", "app.js"],
+    "build_step": false,
+    "keep_vanilla": true,
+    "forbidden": [
+      "React",
+      "Tailwind",
+      "GSAP",
+      "anime.js",
+      "htmx",
+      "frameworks",
+      "libraries",
+      "CDNs",
+      "bundlers"
+    ],
+    "npm_used_only_for": ["prettier", "eslint", "tsc"],
+    "supporting": [
+      "earning_plan.md",
+      "favicon.svg",
+      "manifest.webmanifest",
+      "package.json",
+      "package-lock.json",
+      "eslint.config.js",
+      ".prettierignore",
+      ".gitignore",
+      ".github/"
+    ]
+  },
+  "constraints": [
+    "KEEP_VANILLA: no frameworks/libraries/CDNs/bundlers; npm only prettier/eslint/tsc",
+    "app.js FROZEN - never edit; keep all 18 getElementById hooks and STATE_KEY \"gate-earn-dashboard-v1\" (app.js:8) intact",
+    "A11y: 44px targets, focus-visible gold ring (styles.css:132-135), WCAG AA contrast, keyboard operable, skip-link preserved",
+    "single ease token only: --ease-out cubic-bezier(0.2, 0.8, 0.2, 1) (styles.css:50); no new ad-hoc easing curves",
+    "lift policy: translateY(-1px) only on .top3-card (styles.css:786) and .pws-link (styles.css:1946); nothing else gains a lift",
+    "RM kill-switch (styles.css:2160) must cover ALL motion; one orchestrated load moment (dial-draw) only; load budget <=800ms",
+    "no will-change sprinkling, no animation-timeline, no scattered hover-lift",
+    "ASCII-only edits except existing Rs (rupee) symbol",
+    "copy/content/dates frozen; color-scheme (dark/light) logic frozen; palette/token micro-refinement only if WCAG AA maintained in both themes; brand LIE // GATE 2027 gold-on-dark aesthetic refined not replaced",
+    "quality over quantity: findings ranked by user-perceptible quality impact (hierarchy, spacing, type, consistency, affordance, polish); no score-gaming nitpicks, no busywork, no speculative features",
+    "rating done ONLY by gem-designer (baseline and every re-rate); threshold strictly > 9.0; implementer and designer both load frontend-philosophy",
+    "verification allowed: npx prettier --check index.html styles.css app.js; npx tsc --allowJs --checkJs false --noEmit app.js; npx eslint app.js; git status/diff/log/add/commit; grep canaries",
+    "verification DENIED: node --check, stylelint, python3, &&-chained commands",
+    "git push = ask-permission (never autonomous)",
+    "stage explicit file paths only (index.html, styles.css, docs/plan/20260923-ui-ux-rate-improve/); never .engram/ or node_modules/"
+  ],
+  "conventions": {
+    "plan_artifacts_dir": "docs/plan/20260923-ui-ux-rate-improve/",
+    "required_artifacts": [
+      "plan.yaml",
+      "context_envelope.json",
+      "rate-1.md (baseline)",
+      "improve-K.md (per improve cycle K)",
+      "rate-(K+1).md (per re-rate cycle)"
+    ],
+    "verification_suite": [
+      "npx prettier --check index.html styles.css app.js",
+      "npx tsc --allowJs --checkJs false --noEmit app.js",
+      "npx eslint app.js"
+    ],
+    "denied_tools": [
+      "node --check",
+      "stylelint",
+      "python3",
+      "&&-chained commands"
+    ],
+    "output_contract_labels": {
+      "RATE-FINDINGS-REPORT": "rate-1.md and rate-(K+1).md: decimal /10 score, per-axis scores + designer weights, findings ranked by user-perceptible quality impact with file:line evidence + in-constraint fix directions, threshold verdict score > 9.0",
+      "IMPLEMENT-DIFF-REPORT": "improve-K.md: addressed/deferred finding IDs with reasons, files touched, file:line evidence, green verification output, canary grep results"
+    },
+    "evidence_rule": "every claim needs a file:line citation in this working tree; already-ships claims cite this tree; source claims cite absolute URLs",
+    "rating_rule": "score reported as decimal /10; designer chooses and reports per-axis weights; threshold strictly > 9.0 (9.0 exactly fails and loops)",
+    "findings_ranking": "user-perceptible quality impact only (hierarchy, spacing, type, consistency, affordance, polish); no score-gaming nitpicks, no busywork, no speculative features",
+    "loop_rule": "cycles of designer-rate -> implementer-improve -> designer-re-rate; max 4 improve rounds then escalate with best score; verified no-op ship allowed if baseline rate already > 9.0",
+    "cycle_index": "K starts at 1; rate-1.md baseline, improve-K.md, rate-(K+1).md re-rates",
+    "commit_message_pattern": "20260923-ui-ux-rate-improve_wave-3",
+    "commit_owner": "orchestrator: git add/commit at convergence with explicit paths only; persist plan.yaml task statuses each wave",
+    "stage_policy": "explicit file paths only; never .engram/ or node_modules/",
+    "push_policy": "ask-permission only; never autonomous",
+    "ascii": "ASCII-only edits except existing Rs (rupee) symbol",
+    "skills": ["frontend-philosophy"],
+    "user_pattern": "rate -> improve -> re-rate loop until score > 9.0, then orchestrator commit (push only via ask)"
+  },
+  "prior_decisions": [
+    {
+      "id": "keep-vanilla",
+      "decision": "pure vanilla, 3 files, zero build; npm only for prettier/eslint/tsc; no frameworks/libraries/CDNs/bundlers",
+      "refs": ["package.json"]
+    },
+    {
+      "id": "app-js-frozen",
+      "decision": "app.js FROZEN - never edit; 18 getElementById hooks + STATE_KEY gate-earn-dashboard-v1 (app.js:8) must remain intact (grep-verified)",
+      "refs": ["app.js:8"]
+    },
+    {
+      "id": "lift-policy",
+      "decision": "scattered hover lifts killed; only .top3-card (styles.css:786) and .pws-link (styles.css:1946) retain translateY(-1px)",
+      "refs": ["styles.css:786", "styles.css:1946"]
+    },
+    {
+      "id": "one-moment-ease-budget",
+      "decision": "dial-draw is the single orchestrated load moment; budget <=800ms; single ease token --ease-out cubic-bezier(0.2, 0.8, 0.2, 1) (styles.css:50)",
+      "refs": ["styles.css:50"]
+    },
+    {
+      "id": "rm-kill-switch",
+      "decision": "prefers-reduced-motion kill-switch (styles.css:2160) must cover ALL motion; JS mirror at app.js:391",
+      "refs": ["styles.css:2160", "app.js:391"]
+    },
+    {
+      "id": "a11y-first-class",
+      "decision": "44px min targets, focus-visible gold ring (styles.css:132-135), keyboard operability, WCAG AA contrast, skip-link preserved (styles.css:138)",
+      "refs": ["styles.css:132-135", "styles.css:138"]
+    },
+    {
+      "id": "brand-frozen",
+      "decision": "dates, color-scheme logic, copy, and the gold/dark LIE // GATE 2027 identity are hard out of scope; brand refined not replaced; palette micro-refinement only if AA maintained",
+      "refs": []
+    },
+    {
+      "id": "rate-improve-loop-pattern",
+      "decision": "prior plans prove research/rate -> implement -> gate with evidence_rule always passes on re-run; this plan models designer-rate -> implementer-improve -> designer-re-rate with a loop note and max-cycle cap",
+      "refs": [
+        "docs/plan/20260923-ui-ux-best-practices (removed 258644f, recovered from 258644f^)",
+        "6ff9540"
+      ]
+    },
+    {
+      "id": "designer-scores-only",
+      "decision": "gem-designer produces every score (baseline + re-rates) against frontend-philosophy + rubric axes; no other agent may emit a score; threshold strictly > 9.0",
+      "refs": []
+    },
+    {
+      "id": "plans-3-5-tasks-3-waves",
+      "decision": "keep plans at 3-5 tasks / 3 waves + loop note; canary greps (single-ease/lifts/hooks/RM) are the cheap constraint check; prettier/tsc/eslint suite green required before each commit",
+      "refs": []
+    },
+    {
+      "id": "push-ask-only",
+      "decision": "commit owned by orchestrator with explicit staged paths; git push requires ask-permission, never autonomous",
+      "refs": []
+    }
+  ],
+  "architecture_snapshot": {
+    "type": "single-page dashboard",
+    "entry": "index.html",
+    "styles": "styles.css",
+    "script": "app.js",
+    "state_key": "gate-earn-dashboard-v1",
+    "state_key_ref": "app.js:8",
+    "element_id_hooks": 18,
+    "hooks": [
+      "themeToggle",
+      "themeIcon",
+      "leetcodeCount",
+      "incomeCount",
+      "activeLoops",
+      "weekCount",
+      "leetcodeProgress",
+      "incomeProgress",
+      "loopProgress",
+      "weekProgress",
+      "timelineWeeks",
+      "timelineDetailContent",
+      "calcTotal",
+      "calcRange",
+      "checklistProgress",
+      "checklistLabel",
+      "pwsProgress",
+      "pwsLabel"
+    ],
+    "key_anchors": {
+      "ease_token": "styles.css:50",
+      "focus_ring": "styles.css:132-135",
+      "skip_link": "styles.css:138",
+      "skip_link_focus": "styles.css:156",
+      "theme_toggle": "styles.css:179",
+      "theme_toggle_hover": "styles.css:200",
+      "theme_toggle_active": "styles.css:205",
+      "lift_top3_card": "styles.css:786",
+      "lift_pws_link": "styles.css:1946",
+      "reduced_motion_kill_switch": "styles.css:2160",
+      "js_reduced_motion_mirror": "app.js:391"
+    },
+    "current_ui_state": "No sticky header (removed aa8dbd0). Skip-link first, then fixed top-right #themeToggle. Hero + KPI strip + sections (loop/top3/tiers/timeline/calc/setup/reference), timeline week-detail view-transitions, checklist, PWS labs list, calculator, footer. Dark/light themes via :root tokens.",
+    "base_commit": "aa8dbd0",
+    "branch": "main",
+    "remote": "https://github.com/Mariakevin/Learn-Earn.git"
+  },
+  "research_digest": {
+    "baseline_files": [
+      "20260922-animations-effects-transitions (commit 4874c9c, 18 findings: 8 DO shipped / 10 SKIP)",
+      "20260922-animations-effects-best-practices (commit 91cfca2, 23 findings: 8 DONE-BASELINE / 10 SKIP-BASELINE / 2 NEW DO / 3 NEW SKIP)",
+      "20260923-ui-ux-best-practices (commit 6ff9540, 32 findings: 10 DONE-BASELINE / 13 SKIP-BASELINE / 4 NEW DO U1-U4 / 5 NEW SKIP U5-U9)"
+    ],
+    "plan_artifacts_note": "historical docs/plan artifacts removed in 258644f; format/evidence-rule pattern recovered from 258644f^ and reused",
+    "latest_shipped_commits": [
+      "4874c9c",
+      "91cfca2",
+      "6ff9540",
+      "258644f",
+      "aa8dbd0"
+    ],
+    "done_baseline_motion": [
+      "composite-only entrances (rise-in + dial-draw)",
+      "single ease token cubic-bezier(0.2, 0.8, 0.2, 1) (styles.css:50)",
+      "::view-transition-group(week-detail) 180ms",
+      "prefers-reduced-motion kill-switch covering all motion (styles.css:2160, JS mirror app.js:391)",
+      "load-sequence budget <=800ms",
+      "lift policy: only .top3-card + .pws-link translateY(-1px)",
+      "forced-colors / moz-range / :active press parity from prior plans"
+    ],
+    "shipped_uiux_baseline": [
+      "U1-U4 shipped in 6ff9540 (6x role=status, 3x max-width 70ch, week h4->h3, skip-link 44px)"
+    ],
+    "rubric_axes": [
+      "visual hierarchy",
+      "spacing rhythm and alignment",
+      "typography quality",
+      "consistency and design-system coherence",
+      "interaction affordance and states",
+      "responsiveness and layout robustness",
+      "dark-mode parity",
+      "a11y (44px targets, focus-visible, WCAG AA contrast)",
+      "overall craft"
+    ],
+    "quality_dimensions_for_ranking": [
+      "hierarchy",
+      "spacing",
+      "type",
+      "consistency",
+      "affordance",
+      "polish"
+    ],
+    "out_of_scope": [
+      "date changes",
+      "color-scheme logic changes",
+      "content/copy rewrites (UX-critical designer-flagged microcopy only)",
+      "brand replacement (gold/dark LIE // GATE 2027 refined not replaced)",
+      "any app.js edit",
+      "speculative features, busywork, score-gaming nitpicks"
+    ],
+    "output_contract": "RATE-FINDINGS-REPORT (rate-1.md, rate-(K+1).md) + IMPLEMENT-DIFF-REPORT (improve-K.md); every claim file:line; score decimal /10; threshold strictly > 9.0",
+    "findings": []
+  },
+  "reuse_notes": {
+    "anchors_to_revalidate": [
+      "styles.css:50 ease token",
+      "styles.css:132-135 focus-visible gold ring",
+      "styles.css:138 skip-link",
+      "styles.css:179/200/205 theme-toggle base/hover/active",
+      "styles.css:786 .top3-card lift",
+      "styles.css:1946 .pws-link lift",
+      "styles.css:2160 prefers-reduced-motion kill-switch",
+      "app.js:8 STATE_KEY",
+      "app.js:391 JS reduced-motion mirror"
+    ],
+    "verification_suite": [
+      "npx prettier --check index.html styles.css app.js",
+      "npx tsc --allowJs --checkJs false --noEmit app.js",
+      "npx eslint app.js"
+    ],
+    "canary_greps": [
+      "18 getElementById hooks + STATE_KEY gate-earn-dashboard-v1",
+      "translateY(-1px) only at styles.css:786 and styles.css:1946",
+      "sole custom ease cubic-bezier(0.2, 0.8, 0.2, 1) at styles.css:50",
+      "prefers-reduced-motion kill-switch present at styles.css:2160",
+      "no framework/library/CDN/bundler imports"
+    ],
+    "tdd_red_first": "grep proving absence before each edit; green verification after",
+    "gate_npx_policy": "sandbox may deny npx - prettier/tsc may cite implementer improve-K.md evidence; greps re-checked independently; eslint re-run if possible"
+  },
+  "plan_summary": "3 waves, 3 tasks, 3 contracts: rate-baseline (wave 1, gem-designer, read-only quality-first rate -> rate-1.md RATE-FINDINGS-REPORT, decimal /10, threshold > 9.0) -> improve-round (wave 2, gem-implementer, MUST load frontend-philosophy, apply top-ranked findings within all hard constraints, improve-K.md IMPLEMENT-DIFF-REPORT + green suite) -> re-rate-round (wave 3, gem-designer, independent fresh re-rate -> rate-(K+1).md, threshold verdict). Orchestrator re-dispatches waves 2-3 until score > 9.0 or max 4 improve rounds then escalates with best score; ships via verified no-op path if baseline already > 9.0; orchestrator commits 20260923-ui-ux-rate-improve_wave-3 with explicit paths, push = ask only.",
+  "context_snapshot_fields": {
+    "rate-baseline": ["tech_stack", "constraints", "research_digest"],
+    "improve-round": [
+      "tech_stack",
+      "constraints",
+      "conventions",
+      "reuse_notes",
+      "research_digest"
+    ],
+    "re-rate-round": [
+      "constraints",
+      "conventions",
+      "research_digest",
+      "plan_summary"
+    ]
+  },
+  "config_snapshot": {}
+}
