@@ -171,7 +171,6 @@ a {
 .week-label,
 #checklistLabel,
 #pwsLabel,
-.footer,
 .activity-income {
   font-variant-numeric: tabular-nums slashed-zero;
 }
@@ -1960,16 +1959,6 @@ a {
   font-size: 0.8125rem;
   color: var(--text-2);
   line-height: 1.45;
-}
-
-/* ===== Footer ===== */
-.footer {
-  text-align: center;
-  padding: 24px 16px 32px;
-  border-top: 1px solid var(--hairline);
-  color: var(--text-3);
-  font-family: "IBM Plex Mono", ui-monospace, monospace;
-  font-size: 0.75rem;
 }
 
 /* ===== Responsive ===== */
