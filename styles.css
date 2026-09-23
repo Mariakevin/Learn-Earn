@@ -185,7 +185,7 @@ a {
   width: 44px;
   height: 44px;
   border-radius: var(--radius-sm);
-  border: 1px solid var(--hairline);
+  border: 1px solid var(--text-3);
   background: var(--surface-2);
   color: var(--text-2);
   cursor: pointer;
